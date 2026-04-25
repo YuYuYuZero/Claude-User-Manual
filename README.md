@@ -1,1 +1,2 @@
-# [Claude User Manual](https://yuyuyuzero.github.io/Claude-User-Manual/)
+# Claude User Manual
+[Click to Open](https://yuyuyuzero.github.io/Claude-User-Manual/)
