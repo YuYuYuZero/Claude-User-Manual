@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>附录 A · 模型对照表 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:6px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="appendix-a-models.html" class="current">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 附录 A · 模型对照表</div>
+
+<h1>附录 A · 模型对照表</h1>
+
+<p>本附录集中列出当前可用模型的能力和价格，方便你在代码里填 <code>model</code> 字段时直接查表。</p>
+
+<h2>A.1 最新三档模型</h2>
+
+<table>
+<tr><th>能力</th><th>Claude Opus 4.7</th><th>Claude Sonnet 4.6</th><th>Claude Haiku 4.5</th></tr>
+<tr><td><strong>定位</strong></td><td>最强通用模型<br>复杂推理 & 代理编码</td><td>速度与智能的<br>最佳组合</td><td>接近前沿智能的<br>最快模型</td></tr>
+<tr><td><strong>API ID</strong></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5-20251001</code></td></tr>
+<tr><td><strong>API 别名</strong></td><td><code>claude-opus-4-7</code></td><td><code>claude-sonnet-4-6</code></td><td><code>claude-haiku-4-5</code></td></tr>
+<tr><td><strong>定价（输入）</strong></td><td>$5 / MTok</td><td>$3 / MTok</td><td>$1 / MTok</td></tr>
+<tr><td><strong>定价（输出）</strong></td><td>$25 / MTok</td><td>$15 / MTok</td><td>$5 / MTok</td></tr>
+<tr><td><strong>上下文窗口</strong></td><td>1M tokens</td><td>1M tokens</td><td>200k tokens</td></tr>
+<tr><td><strong>最大输出</strong></td><td>128k tokens</td><td>64k tokens</td><td>64k tokens</td></tr>
+<tr><td><strong>手动扩展思考</strong></td><td>❌ 否（用自适应）</td><td>✅ 是</td><td>✅ 是</td></tr>
+<tr><td><strong>自适应思考</strong></td><td>✅ 是</td><td>✅ 是</td><td>❌ 否</td></tr>
+<tr><td><strong>预填充支持</strong></td><td>❌ 否</td><td>❌ 否</td><td>❌ 否</td></tr>
+<tr><td><strong>相对延迟</strong></td><td>中等</td><td>快</td><td>最快</td></tr>
+<tr><td><strong>可靠知识截止</strong></td><td>2026 年 1 月</td><td>2025 年 8 月</td><td>2025 年 2 月</td></tr>
+<tr><td><strong>训练数据截止</strong></td><td>2026 年 1 月</td><td>2026 年 1 月</td><td>2025 年 7 月</td></tr>
+</table>
+
+<h2>A.2 选型决策树</h2>
+
+<div class="note">
+<ol style="margin-bottom:0;margin-top:4px">
+<li><strong>不知道选哪个</strong> → <strong>从 Claude Opus 4.7 开始</strong>。跑通效果后，不满意再换</li>
+<li><strong>要手动控制思考预算</strong>(<code>budget_tokens</code>) → <strong>Claude Sonnet 4.6</strong> 或更早的 Claude 4 模型</li>
+<li><strong>成本敏感的大批量短任务</strong>（如标签分类、简单摘要） → <strong>Claude Haiku 4.5</strong></li>
+<li><strong>长文档分析 / 一次吞整份合同</strong> → <strong>Opus 4.7</strong> 或 <strong>Sonnet 4.6</strong>（都有 1M 窗口）</li>
+</ol>
+</div>
+
+<h2>A.3 旧版模型（可用但建议迁移）</h2>
+
+<table>
+<tr><th>模型</th><th>API ID</th><th>状态</th><th>建议</th></tr>
+<tr><td>Claude Opus 4.6</td><td><code>claude-opus-4-6</code></td><td>可用</td><td>可迁到 Opus 4.7</td></tr>
+<tr><td>Claude Sonnet 4.5</td><td><code>claude-sonnet-4-5-20250929</code></td><td>可用</td><td>可迁到 Sonnet 4.6</td></tr>
+<tr><td>Claude Opus 4.5</td><td><code>claude-opus-4-5-20251101</code></td><td>可用</td><td>可迁到 Opus 4.7</td></tr>
+<tr><td>Claude Opus 4.1</td><td><code>claude-opus-4-1-20250805</code></td><td>可用</td><td>可迁到 Opus 4.7</td></tr>
+</table>
+
+<h2>A.4 已弃用模型（有停用时间表）</h2>
+
+<div class="warning">
+<table style="margin-bottom:0">
+<tr><th>模型</th><th>API ID</th><th>停用日期</th><th>建议替换</th></tr>
+<tr><td>Claude Sonnet 4</td><td><code>claude-sonnet-4-20250514</code></td><td>2026 年 6 月 15 日</td><td>Claude Sonnet 4.6</td></tr>
+<tr><td>Claude Opus 4</td><td><code>claude-opus-4-20250514</code></td><td>2026 年 6 月 15 日</td><td>Claude Opus 4.7</td></tr>
+<tr><td>Claude Haiku 3</td><td><code>claude-3-haiku-20240307</code></td><td>2026 年 4 月 19 日</td><td>Claude Haiku 4.5</td></tr>
+</table>
+<p style="margin-top:10px;margin-bottom:0"><strong>停用后</strong>这些 ID 会返回错误，生产环境请提前迁移。</p>
+</div>
+
+<h2>A.5 关键特性矩阵（同一张表）</h2>
+
+<table>
+<tr><th>特性</th><th>Opus 4.7</th><th>Sonnet 4.6</th><th>Haiku 4.5</th></tr>
+<tr><td>扩展思考（手动）</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>自适应思考</td><td>✅</td><td>✅</td><td>❌</td></tr>
+<tr><td>工具使用</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>视觉（读图）</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>PDF 处理</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>上下文感知（Token 预算可见）</td><td>—</td><td>✅</td><td>✅</td></tr>
+<tr><td>压缩（Compaction）Beta</td><td>✅</td><td>✅</td><td>—</td></tr>
+<tr><td>批处理 API（50% 折扣）</td><td>✅</td><td>✅</td><td>✅</td></tr>
+<tr><td>提示缓存（5 分钟 / 1 小时）</td><td>✅</td><td>✅</td><td>✅</td></tr>
+</table>
+
+<h2>A.6 单请求大小限制</h2>
+
+<ul>
+<li><strong>Opus 4.7 / 4.6 / Sonnet 4.6</strong>：单请求最多 <strong>600 张</strong>图像或 PDF 页面</li>
+<li><strong>200k 上下文窗口的模型</strong>（如 Haiku 4.5）：单请求最多 <strong>100 张</strong>图像或 PDF 页面</li>
+<li>发送大量图像或大型文档时，可能先撞到“请求大小限制”，而不是 token 限制</li>
+</ul>
+
+<h2>A.7 批处理 API 的额外能力</h2>
+
+<div class="note">
+在批处理 API 上，Opus 4.7、Opus 4.6 和 Sonnet 4.6 通过指定一个 beta 标头 <code>output-300k-2026-03-24</code>，可支持单次请求最多 <strong>300k 输出 tokens</strong>（超过同步 API 的 128k / 64k 限制）。<br><br>
+批处理 API 调用的成本比标准 API <strong>低 50%</strong>，适合对延迟不敏感、但量大的场景（如批量分类、离线分析）。
+</div>
+
+
+<h2>A.8 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="01-concept.html"><span class="ch-name">→ 第一章 · 1.3</span></a><br><span style="color:#666;font-size:13px">五个必须建立的心智模型 · 包括选模型的基本概念</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="02-quickstart.html"><span class="ch-name">→ 第二章 · 快速入门</span></a><br><span style="color:#666;font-size:13px">跑通第一次调用时选模型</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力</span></a><br><span style="color:#666;font-size:13px">扩展思考 / 预填充等能力的模型支持</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="07-cost-saving.html"><span class="ch-name">→ 第七章 · 省钱</span></a><br><span style="color:#666;font-size:13px">结合定价做日常的模型切换策略</span></div></div>
+</div>
+
+<div class="pager">
+<a href="06-troubleshooting.html">← 第六章：常见问题</a>
+<a href="appendix-b-glossary.html">附录 B：术语表 →</a>
+</div>
+
+</div>
+</body>
+</html>

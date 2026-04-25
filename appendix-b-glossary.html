@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>附录 B · 术语表 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:6px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html" class="current">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 附录 B · 术语表</div>
+
+<h1>附录 B · 术语表</h1>
+
+<p>本手册全程对同一个概念只用<strong>一个名字</strong>。下面是完整的“用词表”，也是你 review 团队成员的写作时可以对照的检查清单。</p>
+
+<h2>B.1 模型与调用</h2>
+<table>
+<tr><th>中文术语</th><th>英文 / 代号</th><th>定义</th></tr>
+<tr><td>模型</td><td>Model</td><td>一个具体的 AI 模型版本，如 Claude Opus 4.7。调用时通过 <code>model</code> 字段指定</td></tr>
+<tr><td>模型 ID</td><td>Model ID</td><td>模型的完整标识，如 <code>claude-opus-4-7</code>。有时带日期后缀（<code>claude-haiku-4-5-20251001</code>）</td></tr>
+<tr><td>模型别名</td><td>Model Alias</td><td>不带日期的简称，如 <code>claude-haiku-4-5</code>。推荐在代码里用别名而非日期 ID</td></tr>
+<tr><td>Messages API</td><td>Messages API</td><td>直接调用模型的 HTTP 接口，传 <code>messages</code> 数组，拿 <code>content</code> 回复。无状态</td></tr>
+<tr><td>SDK</td><td>SDK</td><td>Python / TypeScript / Java 等官方客户端库，封装了 Messages API 的 HTTP 细节</td></tr>
+<tr><td>CLI</td><td>CLI</td><td>命令行工具 <code>ant</code>，用 shell 直接调 API，不需要写代码</td></tr>
+</table>
+
+<h2>B.2 上下文与记忆</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>上下文窗口</td><td>Context Window</td><td>模型一次能“看见”的 token 总量，相当于工作记忆。Opus 4.7 为 1M tokens</td></tr>
+<tr><td>上下文衰退</td><td>Context Rot</td><td>上下文变长后准确率和召回率下降的现象——“越长 ≠ 越好”</td></tr>
+<tr><td>上下文感知</td><td>Context Awareness</td><td>较新模型能“看见”自己剩余 token 预算，合理分配算力</td></tr>
+<tr><td>压缩</td><td>Compaction</td><td>服务器端对旧对话自动摘要、释放上下文。Beta 特性</td></tr>
+<tr><td>上下文编辑</td><td>Context Editing</td><td>通过策略自动清除工具结果、思考块等冗余内容</td></tr>
+<tr><td>Token</td><td>Token</td><td>模型处理文本的最小单位，大致 1 个汉字 ≈ 1 token，1 个英文单词 ≈ 0.75 token</td></tr>
+</table>
+
+<h2>B.3 提示与对话</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>系统提示</td><td>System Prompt</td><td>发送前就注入的指令，定义角色、规则、输出格式。通过 <code>system</code> 字段传递</td></tr>
+<tr><td>用户消息</td><td>User Message</td><td><code>role: "user"</code> 的消息，用户本轮输入</td></tr>
+<tr><td>助手消息</td><td>Assistant Message</td><td><code>role: "assistant"</code> 的消息，模型的历史回复</td></tr>
+<tr><td>预填充</td><td>Prefill</td><td>在 <code>messages</code> 最后一位放 <code>assistant</code> 消息作为前缀，强制输出格式。新模型部分不支持</td></tr>
+<tr><td>停止原因</td><td>Stop Reason</td><td>响应里的 <code>stop_reason</code> 字段，常见值：<code>end_turn</code>（正常结束）、<code>tool_use</code>（要调工具）、<code>max_tokens</code>（被截断）</td></tr>
+<tr><td>提示缓存</td><td>Prompt Caching</td><td>把稳定前缀缓存下来，降低重复调用的输入 token 成本。支持 5 分钟或 1 小时</td></tr>
+</table>
+
+<h2>B.4 推理与思考</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>扩展思考</td><td>Extended Thinking</td><td>模型在给最终答案前，先输出 <code>thinking</code> 块展示推理过程</td></tr>
+<tr><td>自适应思考</td><td>Adaptive Thinking</td><td>模型自己决定何时思考、思考多深。Opus 4.7+ 的推荐模式</td></tr>
+<tr><td>思考预算</td><td>Budget Tokens</td><td>扩展思考最多花多少 token。<code>budget_tokens</code> 必须 &lt; <code>max_tokens</code></td></tr>
+<tr><td>思考块</td><td>Thinking Block</td><td>响应内容里 <code>type: "thinking"</code> 的块。工具使用场景下必须原样回传</td></tr>
+<tr><td>交错思考</td><td>Interleaved Thinking</td><td>允许模型在工具调用之间再思考。Claude 4 模型支持</td></tr>
+</table>
+
+<h2>B.5 工具与技能</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>工具使用</td><td>Tool Use</td><td>模型通过 <code>tool_use</code> 块调用外部函数或能力</td></tr>
+<tr><td>客户端工具</td><td>Client-side Tool</td><td>你的代码执行的工具。模型返回 <code>tool_use</code>，你跑完后传回 <code>tool_result</code></td></tr>
+<tr><td>服务器端工具</td><td>Server-side Tool</td><td>平台侧执行的工具，你直接拿结果。如 <code>web_search</code>、<code>code_execution</code></td></tr>
+<tr><td>工具结果</td><td>Tool Result</td><td>工具执行完后的输出，通过 <code>tool_result</code> 块传回</td></tr>
+<tr><td>Skill / 技能</td><td>Agent Skill</td><td>包含 <code>SKILL.md</code> + 可选脚本/资源的模块化能力包。有 <code>name</code> 和 <code>description</code></td></tr>
+<tr><td>渐进式披露</td><td>Progressive Disclosure</td><td>Skills 三级加载机制：元数据 → 指令 → 资源，按需读入不挤占上下文</td></tr>
+<tr><td>MCP</td><td>Model Context Protocol</td><td>连接 Claude 与外部工具/数据源的开放协议</td></tr>
+<tr><td>MCP 连接器</td><td>MCP Connector</td><td>直接从 Messages API 连到远程 MCP 服务器的能力</td></tr>
+</table>
+
+<h2>B.6 架构与工程</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>Harness / 脚手架</td><td>Agent Harness</td><td>裹在模型外的“操作系统”：记忆管理 + 安全 + 调度 + 监控</td></tr>
+<tr><td>人机回环</td><td>Human-in-the-loop</td><td>高风险操作强制暂停、等人类确认的机制</td></tr>
+<tr><td>Sub-Agent</td><td>Sub-Agent</td><td>把长任务拆成多个专职子 Agent（调研 / 写代码 / 测试），互相传精简 JSON</td></tr>
+<tr><td>记忆压缩</td><td>Memory Compaction</td><td>Harness 阶段性清空历史、只留结构化摘要，防止上下文爆炸</td></tr>
+<tr><td>内存工具</td><td>Memory Tool</td><td>Claude 跨对话存储和检索信息的工具，构建长期知识库</td></tr>
+</table>
+
+<h2>B.7 数据与合规</h2>
+<table>
+<tr><th>中文术语</th><th>英文</th><th>定义</th></tr>
+<tr><td>零数据保留</td><td>ZDR / Zero Data Retention</td><td>API 响应返回后数据不落地。部分功能不支持 ZDR，使用前需要确认</td></tr>
+<tr><td>数据驻留</td><td>Data Residency</td><td>用地理控制决定推理在哪个区域跑。通过 <code>inference_geo</code> 参数</td></tr>
+<tr><td>Beta 标头</td><td>Beta Header</td><td>启用预览功能所需的 HTTP 标头，如 <code>skills-2025-10-02</code></td></tr>
+</table>
+
+<h2>B.8 配置与环境</h2>
+<table>
+<tr><th>中文术语</th><th>英文 / 文件</th><th>定义</th></tr>
+<tr><td>API 密钥</td><td>API Key</td><td>调用服务所需的凭证。通过 <code>x-api-key</code> 头或 <code>ANTHROPIC_API_KEY</code> 环境变量传递</td></tr>
+<tr><td>项目级配置</td><td><code>.claude/settings.json</code></td><td>项目根目录下的配置，优先级高于全局</td></tr>
+<tr><td>全局配置</td><td><code>~/.claude/settings.json</code></td><td>用户主目录下的配置，所有项目默认生效</td></tr>
+<tr><td>项目规则</td><td><code>CLAUDE.md</code></td><td>Claude Code 每次启动自动读取的项目规则文件</td></tr>
+<tr><td>全局规则</td><td><code>~/.claude/CLAUDE.md</code></td><td>用户级默认规则，所有项目适用</td></tr>
+</table>
+
+<div class="note">
+<strong>写作用词约定</strong>：本手册全程遵守以下规则——
+<ul style="margin-bottom:0;margin-top:6px">
+<li>第二人称统一用“<strong>你</strong>”，不混用“用户”、“您”、“开发者”</li>
+<li>所有命令、文件名、API 字段用 <code>等宽代码</code> 格式</li>
+<li>任务标题以动词开头（如“安装 Node.js”，不是“Node.js 安装”）</li>
+<li>多义词一经确定不再改（如“Skill” 一律译作“技能”或直接保留英文，不穿插其他译法）</li>
+</ul>
+</div>
+
+<h2>B.9 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="01-concept.html"><span class="ch-name">→ 第一章 · 1.3</span></a><br><span style="color:#666;font-size:13px">五个核心术语的展开解释</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="appendix-a-models.html"><span class="ch-name">→ 附录 A · 模型对照表</span></a><br><span style="color:#666;font-size:13px">所有模型 ID / 别名 / 价格对照</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="00-index.html"><span class="ch-name">→ 封面 · 写作风格指南</span></a><br><span style="color:#666;font-size:13px">术语使用规范来源</span></div></div>
+</div>
+
+<div class="pager">
+<a href="appendix-a-models.html">← 附录 A：模型对照表</a>
+<a href="00-index.html">返回封面 →</a>
+</div>
+
+</div>
+</body>
+</html>

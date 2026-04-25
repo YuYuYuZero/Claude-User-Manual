@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第五章 · Agent Harness | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+h4{color:#444;margin:20px 0 10px;font-size:15.5px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.danger{background:#fdecea;padding:14px 18px;border-left:4px solid #e74c3c;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+blockquote{border-left:4px solid #007bff;padding:14px 20px;background:#f0f7ff;margin:18px 0;font-style:italic;color:#333;border-radius:4px}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html" class="current">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第五章 · Agent Harness</div>
+
+<h1>第五章 · Agent Harness</h1>
+
+<p>本章不讲怎么用 Claude，讲<strong>怎么让 Claude 不失控</strong>。这一步跨过去，你才能真正用 AI 完成“2 小时不间断的复杂任务”，而不是每 5 分钟手动救火一次。</p>
+
+<h2>5.1 一句话：Harness 是包在模型外的“操作系统”</h2>
+
+<blockquote>
+<strong>核心共识</strong>：更强的模型 + 裸奔的环境 &lt; 稍弱的模型 + 精心设计的 Harness。
+</blockquote>
+
+<p>很多人以为“模型越强、任务越能搞定”。但实际上，真正决定长任务成败的是<strong>模型外面那一层</strong>——Agent Harness。</p>
+
+<h2>5.2 类比：电脑是怎么运行的</h2>
+
+<table>
+<tr><th>电脑组件</th><th>对应 AI 系统</th><th>职责</th></tr>
+<tr><td><strong>CPU</strong></td><td>AI 模型（Claude Opus/Sonnet/Haiku）</td><td>逻辑计算和推理</td></tr>
+<tr><td><strong>内存（RAM）</strong></td><td>上下文窗口（Context Window）</td><td>装载短期记忆</td></tr>
+<tr><td><strong>操作系统（OS）</strong></td><td><strong>Agent Harness</strong></td><td>管理内存、调度工具、安全拦截</td></tr>
+</table>
+
+<p>没有 OS，CPU 算力再强也跑不起来完整软件。同理，<strong>没有 Harness，模型再强也做不完一个 2 小时的长任务</strong>。</p>
+
+<h2>5.3 没有 Harness 的 4 大痛点</h2>
+
+<p>假设你让 AI 去执行一个需要持续 2 小时的复杂任务——比如“重构整个项目里所有的网络请求”——不给它 Harness 会遇到什么？</p>
+
+<div class="card-group" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0">
+<div style="border:1px solid #fad4d4;background:#fff6f6;border-radius:8px;padding:18px">
+<div style="font-weight:600;color:#c53a53;margin-bottom:6px">1. 上下文腐烂（Context Rot）</div>
+<div style="color:#666;font-size:13.5px">跑到第 50 步，彻底忘记了最初的目标和一开始定的规则。</div>
+</div>
+<div style="border:1px solid #fad4d4;background:#fff6f6;border-radius:8px;padding:18px">
+<div style="font-weight:600;color:#c53a53;margin-bottom:6px">2. 失控死循环</div>
+<div style="color:#666;font-size:13.5px">遇到某个报错，无限重复同一种错误方案，直到 Token 耗尽。</div>
+</div>
+<div style="border:1px solid #fad4d4;background:#fff6f6;border-radius:8px;padding:18px">
+<div style="font-weight:600;color:#c53a53;margin-bottom:6px">3. 幻觉累积（流鞭效应）</div>
+<div style="color:#666;font-size:13.5px">第一步的小错误，在后续 100 步中被不断放大，最终结果完全不可用。</div>
+</div>
+<div style="border:1px solid #fad4d4;background:#fff6f6;border-radius:8px;padding:18px">
+<div style="font-weight:600;color:#c53a53;margin-bottom:6px">4. 无安全边界</div>
+<div style="color:#666;font-size:13.5px">自作主张删掉了生产数据，或把机密文件发给了外部客户。</div>
+</div>
+</div>
+
+<h2>5.4 一个完整 Harness 的 6 个核心模块</h2>
+
+<table>
+<tr><th>#</th><th>模块</th><th>它帮 AI 做了什么</th></tr>
+<tr><td>1</td><td><strong>提示词管理</strong>(Prompt Management)</td><td>每次启动/重置时，重新注入系统规则和目标，防止 AI 跑偏（类似开工前的每日晨会）</td></tr>
+<tr><td>2</td><td><strong>记忆管理</strong>(Memory Management)</td><td><strong>Harness 的灵魂</strong>。长任务中自动“压缩”对话，剔除废话，只保留结构化关键结论</td></tr>
+<tr><td>3</td><td><strong>工具调度</strong>(Tool Orchestration)</td><td>把读写文件、网络搜索、API 调用等底层能力封装好，等待模型召唤</td></tr>
+<tr><td>4</td><td><strong>生命周期控制</strong>(Lifecycle)</td><td>监控运行时间、执行步数，发现死循环立刻强行打断</td></tr>
+<tr><td>5</td><td><strong>安全守卫</strong>(Safety Guardrails)</td><td>遇到高风险操作（如 <code>rm -rf</code>、发邮件）强制暂停，等人类确认</td></tr>
+<tr><td>6</td><td><strong>监控与日志</strong>(Observability)</td><td>记录每一步花掉的 Token 成本、工具调用入参出参，方便复盘</td></tr>
+</table>
+
+<h2>5.5 Claude Code 本身就是一个开箱即用的 Harness</h2>
+
+<p>你每次在 Claude Code 里按 <code>y/n</code> 确认写操作、用 <code>/compact</code> 压缩上下文、看 <code>/cost</code> 花了多少钱——这<strong>就是 Harness 在工作</strong>。</p>
+
+<p>它背后对应平台的若干底层能力：</p>
+
+<ul>
+<li><strong>服务器端压缩（Compaction）</strong>：接近窗口限制时，自动总结对话早期部分</li>
+<li><strong>上下文编辑（Context Editing）</strong>：用可配置策略自动管理上下文（工具结果清除、思考块清除）</li>
+<li><strong>提示缓存</strong>：把稳定前缀缓存下来，降低重复调用的成本</li>
+<li><strong>内存工具（memory）</strong>：跨对话存储和检索信息，构建长期知识库</li>
+</ul>
+
+<h2>5.6 Harness 运转的 6 步标准流程（以处理邮件为例）</h2>
+
+<p>当 Harness 接管任务时，它的生命周期如下：</p>
+
+<ol>
+<li><strong>启动（Boot）</strong>:Harness 注入系统提示，告诉 AI:“你现在是客服主管，目标是处理这 100 封邮件，只准用查询和回复工具。”</li>
+<li><strong>感知（Perceive）</strong>:Harness 把第一封杂乱的邮件内容转成 AI 容易理解的 JSON 格式喂给模型</li>
+<li><strong>推理 + 行动（Reason & Act）</strong>:AI 决定查询知识库并起草回复，Harness 替它去调用数据库</li>
+<li><strong>安全检查（Guard）</strong>:AI 决定发送补偿方案，Harness 识别到“退款/补偿”是敏感行为，立刻暂停等人类确认</li>
+<li><strong>记忆更新（Memory Update）</strong>：处理完毕，Harness 把“已处理客户A，退款50元”记入摘要日志，<strong>清空刚刚处理这封邮件的几十轮废话记忆</strong>，为下一封邮件准备干净大脑</li>
+<li><strong>循环或完成（Loop or Done）</strong>：回到第 2 步处理下一封，直到 100 封处理完毕，输出最终报告</li>
+</ol>
+
+<h2>5.7 Harness 与 Skills 的神仙配合</h2>
+
+<blockquote style="background:#faf5ff;border-left-color:#6b2fb3;color:#333">
+<strong>Skill 是“说明书”，Harness 是“车间流水线”。</strong>
+</blockquote>
+
+<table>
+<tr><th>场景</th><th>只用 Skill（轻装）</th><th>把 Skill 装进 Harness（流水线）</th><th>推荐</th></tr>
+<tr><td><strong>单次任务</strong><br><span style="color:#666;font-size:13px">一个 Excel、一份周报、一次查询</span></td><td>✅ 你让 AI 读一个 Excel、写一份周报——一次对话能搞定，Skill 提供“怎么读 xlsx”的说明书就够了</td><td>⚠️ <strong>过度设计</strong>。一个回合能跑完的事情上流水线，只会增加启动、调度、日志的额外开销，得不偿失</td><td>👉 只用 Skill</td></tr>
+<tr><td><strong>批量任务</strong><br><span style="color:#666;font-size:13px">50 个项目、100 封邮件、整库扫描</span></td><td>❌ 跑 3 个文件后就开始混乱——上下文塞满、记不住前面处理过的结论、中间报错就全盘崩</td><td>✅ “遍历这 50 个项目的周报文件夹，每个都用 xlsx Skill 提取数据、汇总成主报告”。Harness 负责：调度循环、控制内存不爆、出错重试</td><td>👉 Skill + Harness</td></tr>
+</table>
+
+<h2>5.8 动手：一个 100 行 Python 的最小 Harness</h2>
+
+<p>下面是一个<strong>安全代码审计 Harness</strong> 的脱水示例。它做了 4 件事——加载规则、循环扫描、人工拦截、记忆压缩——展示了 Harness 的核心骨架：</p>
+
+<pre>import os
+import json
+from your_llm_sdk import call_llm  # 伪代码,替换成你的 LLM 调用
+
+class SecurityHarness:
+    def __init__(self):
+        self.memory = []                                # 短期记忆池
+        self.global_bug_report = ""                     # 长期记忆(压缩后的全局报告)
+        self.files_processed_since_last_compaction = 0
+        self.critical_files = ["auth.ts", "config.js", "db.py"]  # 敏感名单
+
+    def load_skill(self):
+        """机制一:加载专家 Skill"""
+        with open("security-check.md", "r") as f:
+            return f.read()
+
+    def compact_memory(self):
+        """机制四:记忆压缩(Harness 的最强武器)"""
+        print("\n[Harness] 触发记忆压缩...")
+        compaction_prompt = (
+            f"请把以下散乱的审计记录,压缩为不超过 100 字的结构化漏洞摘要。"
+            f"现有全局摘要:{self.global_bug_report}。"
+            f"近期记录:{self.memory}"
+        )
+        new_summary = call_llm(prompt=compaction_prompt)
+        self.global_bug_report = new_summary
+        # 残忍地清空短期记忆,只保留全局摘要
+        self.memory = []
+        self.files_processed_since_last_compaction = 0
+        print(f"[Harness] 压缩完成:{self.global_bug_report}")
+
+    def human_in_the_loop_guard(self, file_name, ai_proposal):
+        """机制三:人工安全拦截器"""
+        if file_name in self.critical_files:
+            print(f"\n⚠️  [Harness] AI 试图修改核心文件:{file_name}")
+            print(f"AI 的修改建议:\n{ai_proposal}")
+            user_input = input(">> 是否允许?(Y 放行 / N 跳过): ")
+            return user_input.strip().upper() == "Y"
+        return True
+
+    def run(self, project_dir):
+        """机制二:游标循环引擎"""
+        skill_prompt = self.load_skill()
+        for file_name in os.listdir(project_dir):
+            print(f"\n-> Harness 调度 Agent 审计文件:{file_name}")
+
+            with open(os.path.join(project_dir, file_name), "r") as f:
+                code_content = f.read()
+
+            system_context = (
+                f"全局已知漏洞摘要:{self.global_bug_report}\n\n"
+                f"专业技能要求:{skill_prompt}"
+            )
+            ai_response = call_llm(
+                system=system_context,
+                user=f"请审计此代码:\n{code_content}",
+                history=self.memory,
+            )
+            self.memory.append({"role": "assistant", "content": ai_response})
+
+            if "修复代码建议" in ai_response:
+                if self.human_in_the_loop_guard(file_name, ai_response):
+                    print(f"已应用 {file_name} 的修复")
+
+            self.files_processed_since_last_compaction += 1
+            if self.files_processed_since_last_compaction >= 3:
+                self.compact_memory()
+
+if __name__ == "__main__":
+    harness = SecurityHarness()
+    harness.run("./src")</pre>
+
+<h3>5.8.1 运行效果</h3>
+
+<p>当你执行 <code>python security_harness.py</code>，你不再是和 AI 聊天，而是在看一条智能流水线自动运转：</p>
+
+<pre>-&gt; Harness 调度 Agent 审计文件:utils.js
+Agent: {"status": "safe"}
+
+-&gt; Harness 调度 Agent 审计文件:user_controller.js
+Agent: 发现潜在 SQL 注入,建议修复...
+
+-&gt; Harness 调度 Agent 审计文件:auth.ts
+Agent: 发现 Token 硬编码漏洞,建议重构逻辑
+
+⚠️  [Harness] AI 试图修改核心文件:auth.ts
+&gt;&gt; 是否允许?(Y 放行 / N 跳过): N
+[Harness] 已拦截,跳过修改
+
+[Harness] 触发记忆压缩...
+[Harness] 压缩完成:user_controller.js 已修复 SQL 注入;auth.ts Token 硬编码被人工驳回
+
+-&gt; Harness 调度 Agent 审计文件:index.html
+(AI 带着清爽的大脑继续干活)</pre>
+
+<h2>5.9 落地 Harness 的 4 条实战经验</h2>
+
+<ol>
+<li><strong>别舍不得丢记忆</strong>。长任务失败 90% 是因为上下文太长导致模型“变傻”。Harness 的核心就是<strong>无情地阶段性清空历史</strong>，只留结构化摘要</li>
+<li><strong>对一切副作用上锁</strong>。任何涉及写数据库、发请求、删文件的工具，Harness 层面必须设人工白名单（Human-in-the-loop）——千万别盲目信任模型</li>
+<li><strong>提供结构化回退机制</strong>。Harness 发现死循环（连续 3 次报同一个错）就自动切断、记录快照、报错退出，不要一直重试烧钱</li>
+<li><strong>复杂任务拆成 Sub-Agents</strong>。不要用一个 Agent 从头走到尾——让 Harness 去调度“调研 Agent”、“写代码 Agent”、“测试 Agent”，它们交接时传递精简 JSON</li>
+</ol>
+
+<h2>5.10 从“调教 AI”到“工程化管理 AI”</h2>
+
+<p>掌握了 Harness，你会发现自己完成了一次范式升级：</p>
+
+<ol>
+<li><strong>AI 的不可控性被消解</strong>——你不再担心 AI 把核心代码改坏，因为人工拦截像铁锁一样守住危险操作</li>
+<li><strong>上下文上限被终结</strong>——理论上只要有记忆压缩，这个 Harness 可以扫一万个文件不爆栈</li>
+<li><strong>能力高度模块化</strong>——把 <code>security-check.md</code> 换成 <code>ui-design-guideline.md</code>，同一个 Harness 立刻变成 UI 走查工具</li>
+</ol>
+
+<blockquote>
+<strong>核心范式</strong>：用代码控制边界（<strong>Harness</strong>），用大模型提供智力（<strong>Model</strong>），用文档规范标准（<strong>Skill</strong>）。
+</blockquote>
+
+<h2>5.11 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 用自己的话解释“为什么更强的模型 + 裸奔环境 &lt; 稍弱模型 + Harness”</li>
+<li>✅ 说出 Harness 的 6 个核心模块，至少能解释其中 3 个的作用</li>
+<li>✅ 指认 Claude Code 里哪些行为是 Harness 在工作（<code>y/n</code>、<code>/compact</code>、<code>/cost</code>）</li>
+<li>✅ 看懂 5.8 的 Python 示例，知道要改哪几行能变成“UI 走查 Harness”</li>
+</ul>
+</div>
+
+
+<h2>5.12 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="03-claude-code.html"><span class="ch-name">→ 第三章 · Claude Code</span></a><br><span style="color:#666;font-size:13px">Claude Code 本身就是一个开箱即用的 Harness</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力</span></a><br><span style="color:#666;font-size:13px">Skills / 工具 / 扩展思考是 Harness 可调度的能力</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="06-troubleshooting.html"><span class="ch-name">→ 第六章 · 常见问题</span></a><br><span style="color:#666;font-size:13px">长任务跑炸了？查 6.4 性能类条目</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="07-cost-saving.html"><span class="ch-name">→ 第七章 · 省钱与成本</span></a><br><span style="color:#666;font-size:13px">长任务成本控制 · 用 subagent 省 token</span></div></div>
+</div>
+
+<div class="pager">
+<a href="04-advanced.html">← 第四章：进阶</a>
+<a href="06-troubleshooting.html">下一章：常见问题 →</a>
+</div>
+
+</div>
+</body>
+</html>

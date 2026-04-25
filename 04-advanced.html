@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第四章 · 进阶能力 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+h4{color:#444;margin:20px 0 10px;font-size:15.5px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.danger{background:#fdecea;padding:14px 18px;border-left:4px solid #e74c3c;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+.h4-text{font-weight:600;color:#444;margin:20px 0 10px;font-size:16px;line-height:1.5}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+blockquote{border-left:3px solid #bbb;padding:8px 16px;color:#555;margin:16px 0;background:#fafbfc}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html" class="current">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第四章 · 进阶能力</div>
+
+<h1>第四章 · 进阶能力</h1>
+
+<p>本章讲四个进阶主题：<strong>Agent Skills</strong>（给 Claude 装“专家说明书”）、<strong>工具使用</strong>（让 Claude 调用外部能力）、<strong>扩展思考</strong>（让模型“先想再说”）、<strong>提示缓存</strong>（降本提速）。它们是把 Claude 从“聊天对象”升级成“生产力工具”的关键。</p>
+
+<div class="note">
+如果你还没跑通第二章的 Hello World，先回去。本章假设你已经熟悉 API 基本调用。
+</div>
+
+<h2>4.1 Agent Skills：给 Claude 装“专家说明书”</h2>
+
+<h3>4.1.1 一个类比：Skills 就像新员工的入职指南</h3>
+
+<p>Skills 是一个<strong>文件夹</strong>，里面装着：</p>
+
+<ul>
+<li>一份说明书（<code>SKILL.md</code>）</li>
+<li>一些脚本（<code>*.py</code>, <code>*.sh</code>）</li>
+<li>一些参考资料（其他 markdown、模板文件、数据库 schema 等）</li>
+</ul>
+
+<p>这个结构<strong>像极了你为新员工准备的入职指南</strong>——新同事来了，不用你一对一教每件事，给他一份文档包，他自己翻着读、照着做。</p>
+
+<h3>4.1.2 核心机制：渐进式披露（Progressive Disclosure）</h3>
+
+<p>Skills 之所以不拖慢对话，是因为它分<strong>三级加载</strong>——按需读取，不是一次性塞进上下文：</p>
+
+<table>
+<tr><th>级别</th><th>内容</th><th>加载时机</th><th>Token 成本</th></tr>
+<tr><td><strong>第一级 · 元数据</strong></td><td>YAML frontmatter 里的 <code>name</code> + <code>description</code></td><td>始终（启动时）</td><td>每个 Skill 约 100 tokens</td></tr>
+<tr><td><strong>第二级 · 指令</strong></td><td><code>SKILL.md</code> 主体</td><td>被触发时</td><td>不超过 5k tokens</td></tr>
+<tr><td><strong>第三级+ · 资源</strong></td><td>脚本、参考文件、模板</td><td>按需加载</td><td>实际上无限制</td></tr>
+</table>
+
+<p>这个设计让你可以<strong>装几十个 Skills 而不会挤爆上下文</strong>——Claude 只“知道”它们存在，具体内容只有用到时才读入。</p>
+
+<h3>4.1.3 创建一个最小可用的 Skill</h3>
+
+<p>在项目下创建目录 <code>.claude/skills/pdf-processing/</code>，里面放一个 <code>SKILL.md</code>:</p>
+
+<pre>---
+name: pdf-processing
+description: Extract text and tables from PDF files, fill forms, merge documents. Use when working with PDF files or when the user mentions PDFs, forms, or document extraction.
+---
+
+# PDF Processing
+
+## Quick start
+
+Use pdfplumber to extract text from PDFs:
+
+```python
+import pdfplumber
+
+with pdfplumber.open("document.pdf") as pdf:
+    text = pdf.pages[0].extract_text()
+```
+
+For advanced form filling, see FORMS.md.</pre>
+
+<div class="tips">
+<strong>字段硬性约束</strong>：
+<ul style="margin-bottom:0">
+<li><code>name</code>：最多 64 字符，只能小写字母/数字/连字符，不能含保留词 "anthropic" / "claude"</li>
+<li><code>description</code>：非空，最多 1024 字符，<strong>必须同时包含“做什么”和“什么时候用”</strong>——这决定了 Claude 会不会在合适时机自动调用它</li>
+</ul>
+</div>
+
+<h3>4.1.4 开箱即用的预构建 Skills</h3>
+
+<p>下面这几个 Skills 不需要你自己写，在合适场景下会被自动调用：</p>
+
+<table>
+<tr><th>Skill</th><th>用途</th><th>典型触发语</th></tr>
+<tr><td><code>docx</code></td><td>Word 文档创建、编辑、格式化</td><td>“帮我生成一份 Word 周报”</td></tr>
+<tr><td><code>xlsx</code></td><td>Excel 表格创建、数据分析、图表</td><td>“把这份 CSV 清洗后导出成 xlsx”</td></tr>
+<tr><td><code>pptx</code></td><td>PPT 演示文稿创建、编辑</td><td>“根据这份大纲生成 12 页 PPT”</td></tr>
+<tr><td><code>pdf</code></td><td>PDF 生成、表单填写、合并</td><td>“提取这个 PDF 里的表格，输出成 Excel”</td></tr>
+</table>
+
+<h3>4.1.5 Skill 的“写作 5 条落地经验”</h3>
+
+<p>写 Skill 和写手册很像——如果别人（包括 Claude）读不懂，它就没用。以下 5 条经验来自大量“失败 Skill”的复盘：</p>
+
+<ol>
+<li><strong><code>description</code> 写成用户会说的话</strong>，让它更容易自动触发。例如 "Extract text from PDFs" 不如 "Extract text and tables from PDF files, fill forms"</li>
+<li><strong>把复杂任务拆成流程</strong>，每一步都写清楚“输入 / 输出 / 检查点”</li>
+<li><strong>给 1–2 个好例子输出</strong>——尤其是文案、报告、表格类任务，示范远比说明有效</li>
+<li><strong>需要人手动控制的流程就禁用自动触发</strong>，例如部署、发邮件、改生产数据</li>
+<li><strong>把参考资料放到附带文件里</strong>，别全塞进 SKILL.md 主文档</li>
+</ol>
+
+<h3>4.1.6 安全警告</h3>
+
+<div class="danger">
+<strong>把 Skills 当成软件安装来对待</strong>，只用可信来源。<br><br>
+Skills 给 Claude 的是<strong>指令 + 可执行代码</strong>的组合，威力很大也很危险：
+<ul style="margin-bottom:0">
+<li>恶意 Skill 可能指示 Claude 做出与它声明目的不一致的行为（读敏感文件、发外部请求）</li>
+<li>从外部 URL 拉内容的 Skill 即使本身可信，外部内容被篡改后也会出问题</li>
+<li>使用前务必<strong>检查所有捆绑文件</strong>：SKILL.md、脚本、图片资源</li>
+</ul>
+</div>
+
+<h2>4.2 工具使用（Tool Use）</h2>
+
+<p>工具让 Claude 从“只会说话”变成“能干活”。比如：</p>
+
+<ul>
+<li>回答“最新的火星车新闻”——需要 <strong>网络搜索</strong>工具</li>
+<li>执行“帮我把这组数据跑个统计”——需要 <strong>代码执行</strong>工具</li>
+<li>操作“读取 <code>data.csv</code> 然后改写其中一行”——需要 <strong>文件系统 / 文本编辑器</strong>工具</li>
+</ul>
+
+<h3>4.2.1 两种工具：谁负责跑</h3>
+
+<table>
+<tr><th>类型</th><th>谁执行</th><th>流程</th><th>典型例子</th></tr>
+<tr><td><strong>客户端工具</strong></td><td>你的应用</td><td>Claude 返回 <code>stop_reason: "tool_use"</code>，你的代码跑完后把 <code>tool_result</code> 传回</td><td>bash、文本编辑器、你自定义的函数</td></tr>
+<tr><td><strong>服务器端工具</strong></td><td>平台侧</td><td>你直接收到结果，不用处理执行</td><td>网络搜索、代码执行、网络获取</td></tr>
+</table>
+
+<h3>4.2.2 最简示例：服务器端网络搜索</h3>
+
+<pre>curl https://api.anthropic.com/v1/messages \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "claude-opus-4-7",
+    "max_tokens": 1024,
+    "tools": [{"type": "web_search_20260209", "name": "web_search"}],
+    "messages": [{"role": "user", "content": "What is the latest on the Mars rover?"}]
+  }'</pre>
+
+<p>Claude 收到问题后，自己决定要不要搜，然后直接把包含搜索结果的回答返回给你。</p>
+
+<h3>4.2.3 其他常用工具一览</h3>
+
+<table>
+<tr><th>工具</th><th>类型</th><th>做什么</th></tr>
+<tr><td><code>web_search</code></td><td>服务器端</td><td>用当前、真实世界数据增强回答</td></tr>
+<tr><td><code>web_fetch</code></td><td>服务器端</td><td>从指定网页/PDF 抓取完整内容做深入分析</td></tr>
+<tr><td><code>code_execution</code></td><td>服务器端</td><td>沙盒中运行代码，数据分析/计算/文件处理</td></tr>
+<tr><td><code>bash</code></td><td>客户端</td><td>执行 bash 命令和脚本</td></tr>
+<tr><td><code>text_editor</code></td><td>客户端</td><td>创建和编辑文本文件</td></tr>
+<tr><td><code>computer_use</code></td><td>客户端</td><td>通过截屏 + 鼠标键盘命令控制电脑界面</td></tr>
+<tr><td><code>memory</code></td><td>客户端</td><td>跨对话存储和检索信息，构建长期知识库</td></tr>
+</table>
+
+<h2>4.3 扩展思考（Extended Thinking）</h2>
+
+<h3>4.3.1 它做什么</h3>
+
+<p>扩展思考让 Claude <strong>在给最终答案前先“想”</strong>——返回一个 <code>thinking</code> 块（推理过程）+ 一个 <code>text</code> 块（最终答案）。适合数学证明、复杂推理、代码设计等任务。</p>
+
+<h3>4.3.2 模型支持情况（极其重要）</h3>
+
+<div class="warning">
+<ul style="margin-bottom:0">
+<li><strong>Claude Opus 4.7+</strong>：<strong>不支持</strong>手动扩展思考，改用<strong>自适应思考</strong>（模型自己决定想多深）</li>
+<li><strong>Claude Opus 4.6 / Sonnet 4.6</strong>：手动扩展思考已弃用，推荐自适应</li>
+<li>其他 Claude 4 模型（如 Sonnet 4.5）：可用手动扩展思考</li>
+</ul>
+</div>
+
+<h3>4.3.3 Python 示例（模型为 Sonnet 4.6）</h3>
+
+<pre>import anthropic
+client = anthropic.Anthropic()
+
+response = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=16000,
+    thinking={"type": "enabled", "budget_tokens": 10000},
+    messages=[
+        {"role": "user",
+         "content": "Are there an infinite number of prime numbers such that n mod 4 == 3?"}
+    ],
+)
+
+for block in response.content:
+    if block.type == "thinking":
+        print(f"Thinking: {block.thinking}")
+    elif block.type == "text":
+        print(f"Response: {block.text}")</pre>
+
+<h3>4.3.4 关键参数</h3>
+
+<table>
+<tr><th>参数</th><th>说明</th></tr>
+<tr><td><code>type: "enabled"</code></td><td>启用扩展思考</td></tr>
+<tr><td><code>budget_tokens</code></td><td>思考过程最多花多少 token，<strong>必须 &lt; <code>max_tokens</code></strong></td></tr>
+<tr><td><code>display: "summarized"</code></td><td>返回思考摘要（默认）</td></tr>
+<tr><td><code>display: "omitted"</code></td><td>思考块为空、只保签名——流式场景下可<strong>加快首词延迟</strong></td></tr>
+</table>
+
+<h3>4.3.5 扩展思考 + 工具使用：一个坑</h3>
+
+<div class="danger">
+<strong>必须保留思考块</strong>：如果请求里用了扩展思考 + 工具，第二次请求时<strong>必须把完整的 <code>thinking</code> 块连同 <code>tool_use</code> 块一起传回</strong>，不能修改、不能剥离。系统用密码签名验证思考块的真实性，改了就 400。
+</div>
+
+<h2>4.4 提示缓存（Prompt Caching）</h2>
+
+<h3>4.4.1 它省什么</h3>
+
+<p>如果你的请求里有<strong>反复出现的前缀</strong>——系统提示、长文档、工具定义——把它们缓存起来，后续请求命中缓存时：</p>
+<ul>
+<li>输入 token 成本大幅下降（缓存命中部分打折）</li>
+<li>首词延迟更短</li>
+</ul>
+
+<h3>4.4.2 两种用法</h3>
+
+<ul>
+<li><strong>自动缓存</strong>：请求顶层加 <code>cache_control</code> 字段，系统自动缓存最后一个可缓存块。适合多轮对话</li>
+<li><strong>显式缓存断点</strong>：直接在单个内容块上放 <code>cache_control</code>，精细控制缓存的是哪一块</li>
+</ul>
+
+<h3>4.4.3 自动缓存最简示例</h3>
+
+<pre>curl https://api.anthropic.com/v1/messages \
+  -H "content-type: application/json" \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "claude-opus-4-7",
+    "max_tokens": 1024,
+    "cache_control": {"type": "ephemeral"},
+    "system": "You are an AI assistant tasked with analyzing literary works...",
+    "messages": [{"role": "user", "content": "Analyze the major themes in Pride and Prejudice."}]
+  }'</pre>
+
+<h3>4.4.4 两种缓存时长</h3>
+<table>
+<tr><th>类型</th><th>有效期</th><th>适用场景</th></tr>
+<tr><td>5 分钟缓存（默认）</td><td>最近一次使用后 5 分钟</td><td>多轮对话，对话间隔短</td></tr>
+<tr><td>1 小时缓存</td><td>最近一次使用后 1 小时</td><td>不频繁但重要的上下文（如知识库文档）</td></tr>
+</table>
+
+<div class="warning">
+<strong>缓存失效的坑</strong>：如果你同时用了扩展思考，<strong>修改 <code>budget_tokens</code> 会导致消息缓存失效</strong>（系统提示缓存仍有效）。想保持命中率，就保持思考参数一致。
+</div>
+
+<h2>4.5 上下文窗口与“上下文衰退”</h2>
+
+<p>Claude Opus 4.7 的上下文窗口可达 1M tokens，相当于一本厚书。但<strong>“更多的上下文并不一定更好”</strong>——这个现象叫<strong>上下文衰退（context rot）</strong>:</p>
+
+<blockquote>
+随着对话 token 数量的增加，模型的准确性和召回率会下降。<strong>策划上下文里放什么</strong>，比“上下文窗口有多大”更重要。
+</blockquote>
+
+<h3>4.5.1 上下文感知（新模型特性）</h3>
+
+<p>Claude Sonnet 4.6 / Sonnet 4.5 / Haiku 4.5 能在对话中“看见”自己剩余多少 token:</p>
+
+<pre>&lt;budget:token_budget&gt;1000000&lt;/budget:token_budget&gt;
+&lt;system_warning&gt;Token usage: 35000/1000000; 965000 remaining&lt;/system_warning&gt;</pre>
+
+<p>这让模型在长任务里能更合理地分配“算力预算”——不会在头 10% 的预算里把事情搞砸，也不会在最后 1% 还想着做 80% 的事。</p>
+
+<h3>4.5.2 管理长对话的推荐策略</h3>
+
+<ol>
+<li><strong>服务器端压缩（Compaction）</strong>：接近窗口限制时，平台自动总结对话早期部分</li>
+<li><strong>上下文编辑（Context Editing）</strong>：工具结果清除、思考块清除等策略</li>
+<li><strong>客户端手动 <code>/compact</code></strong>：在 Claude Code 里随时手动触发</li>
+</ol>
+
+<h2>4.6 effort 档位：控制 Claude 思考的“深度”</h2>
+
+<p>Claude Code 提供 <code>/effort</code> 命令，让你在“深度思考”和“省 token”之间做权衡：</p>
+
+<table>
+<tr><th>档位</th><th>适用场景</th></tr>
+<tr><td><code>/effort low</code></td><td>分类、简单查询、高频任务</td></tr>
+<tr><td><code>/effort medium</code></td><td>平衡，日常开发</td></tr>
+<tr><td><code>/effort high</code>（默认）</td><td>复杂推理、硬问题</td></tr>
+<tr><td><code>/effort xhigh</code>（Opus 4.7 新增）</td><td>高级编程、长程 agent。<strong>Opus 4.7 在 Claude Code 下默认就是 xhigh</strong></td></tr>
+<tr><td><code>/effort max</code></td><td>不计代价的最强档</td></tr>
+</table>
+
+<h3>4.6.1 配合模型使用的“性价比矩阵”</h3>
+
+<table>
+<tr><th>任务类型</th><th>推荐组合</th></tr>
+<tr><td>简单改动（改一行字、加注释）</td><td><code>/model sonnet + /effort low</code></td></tr>
+<tr><td>日常开发（修 bug、加小功能）</td><td><code>/model sonnet + /effort medium</code></td></tr>
+<tr><td>硬核任务（大重构、复杂算法）</td><td><code>/model opus + /effort xhigh</code></td></tr>
+</table>
+
+<h2>4.7 自动化命令族：让 Claude 在后台干活</h2>
+
+<p>Claude Code 一个被严重低估的能力是<strong>把 AI 变成定时工人</strong>。下面这组命令是核心：</p>
+
+<h3>4.7.1 <code>/loop</code> — 本地定时循环任务</h3>
+
+<p><strong>语法</strong>：</p>
+
+<pre>/loop &lt;间隔&gt; &lt;要做的事&gt;</pre>
+
+<p>间隔格式：<code>5m</code>（5 分钟）、<code>1h</code>（1 小时）、<code>1d</code>（1 天），最小 1 分钟。</p>
+
+<p><strong>真实例子</strong>：</p>
+
+<pre>/loop 5m  检查 staging 的部署是否完成,完成了告诉我发了啥版本
+
+/loop 10m 跑 npm test,失败的话把 failure 报告给我
+
+/loop 30m /slack-feedback   # 每 30 分钟自动发 PR 找 Slack 反馈
+
+/loop 1h  /pr-pruner          # 每小时清理过期 PR</pre>
+
+<div class="warning">
+<strong>注意事项</strong>：
+<ul style="margin-bottom:0">
+<li><strong>3 天后自动过期</strong>——防止忘了的任务一直烧钱</li>
+<li>关掉会话 = loop 立即结束，<strong>不跨会话</strong></li>
+<li>想跑得更久，用下面的 <code>/schedule</code></li>
+</ul>
+</div>
+
+<h3>4.7.2 <code>/schedule</code> — 云端定时任务</h3>
+
+<p><code>/loop</code> 在本地跑，关了终端就没了；<code>/schedule</code> 是<strong>在云端跑</strong>：</p>
+
+<pre>/schedule a daily job that looks at all PRs shipped since yesterday
+and updates our docs based on the changes</pre>
+
+<ul>
+<li>笔记本合上也继续跑</li>
+<li>跨天、跨重启都没问题</li>
+<li>最长可以排一周</li>
+</ul>
+
+<h3>4.7.3 其他常用自动化命令</h3>
+
+<table>
+<tr><th>命令</th><th>作用</th><th>典型场景</th></tr>
+<tr><td><code>/branch</code></td><td>从当前会话分叉出一个新会话，原会话保留</td><td>想试个有风险的方向，但怕把当前进度搞坏</td></tr>
+<tr><td><code>/add-dir &lt;path&gt;</code></td><td>把额外目录加入工作上下文</td><td>跨仓库工作：在改前端但要参考后端 API 代码</td></tr>
+<tr><td><code>/btw &lt;问题&gt;</code></td><td>"by the way"——临时旁问，答案不进入主对话历史</td><td>问个 Python 语法小问题，不污染当前任务上下文</td></tr>
+<tr><td><code>/recap</code></td><td>会话总结，告诉你“之前做了啥”</td><td>隔几小时回到会话时帮你快速捡起来</td></tr>
+<tr><td><code>/voice</code></td><td>启用按住说话录音（支持中文）</td><td>移动中、手懒时</td></tr>
+<tr><td><code>/export &lt;file.md&gt;</code></td><td>把当前会话导出成 Markdown</td><td>调研完一个复杂问题、留档</td></tr>
+<tr><td><code>/ultraplan &lt;任务&gt;</code></td><td>（Opus 4.7）在浏览器里起草复杂计划，可远程执行</td><td>跨多系统、需查大量外部信息的任务</td></tr>
+<tr><td><code>/ultrareview</code></td><td>（Opus 4.7）比 <code>/review</code> 严苛得多的深度审查</td><td>PR 合并前、发布前的最后一道关</td></tr>
+</table>
+
+<h2>4.8 自定义 / 命令：把重复工作封装成 SOP</h2>
+
+<p>当一件事你做了 3 次，就该把它变成 <code>/命令</code>。这是 Claude Code 最被低估的功能之一。</p>
+
+<h3>4.8.1 基本原理</h3>
+
+<p>在 <code>.claude/commands/&lt;命令名&gt;.md</code> 或 <code>~/.claude/commands/&lt;命令名&gt;.md</code> 里建一个 Markdown 文件，它就自动变成 <code>/命令名</code>。</p>
+
+<table>
+<tr><th>位置</th><th>作用域</th></tr>
+<tr><td><code>&lt;项目根&gt;/.claude/commands/&lt;name&gt;.md</code></td><td>项目级——签入 git，团队共享</td></tr>
+<tr><td><code>~/.claude/commands/&lt;name&gt;.md</code></td><td>个人级——所有项目可用</td></tr>
+</table>
+
+<h3>4.8.2 最简单的例子</h3>
+
+<p>创建 <code>~/.claude/commands/ship.md</code>:</p>
+
+<pre>审查当前 diff,跑测试。如果测试通过,commit 一个清晰的 message,然后 push。</pre>
+
+<p>保存。重新进入 Claude Code，输入 <code>/ship</code>，它就按这个流程做。</p>
+
+<h3>4.8.3 进阶：带 frontmatter 的命令</h3>
+
+<pre>---
+description: 提交前检查 + 推送
+allowed-tools: Bash(git *), Bash(npm test), Read, Glob
+model: claude-sonnet-4-6
+---
+
+执行流程:
+1. 跑 `git diff` 看当前改动
+2. 跑 `npm test`,如果失败立即停止并报告
+3. 如果测试通过,分析改动生成规范的 commit message
+4. `git add .` 和 `git commit`
+5. `git push` 到当前分支
+
+注意:
+- commit message 用中文,格式 &lt;类型&gt;(&lt;范围&gt;): &lt;描述&gt;
+- 不要自动处理带 .env 的改动,要先问我</pre>
+
+<p><strong>frontmatter 字段</strong>：</p>
+<ul>
+<li><code>description</code>：会在 <code>/help</code> 里显示</li>
+<li><code>allowed-tools</code>：预授权工具，不用每次问</li>
+<li><code>model</code>：指定用哪个模型（省钱）</li>
+<li><code>$ARGUMENTS</code>：如果命令后面带参数，在正文里用这个占位符接收</li>
+</ul>
+
+<h3>4.8.4 4 个开箱即用的命令模板</h3>
+
+<p>这 4 个模板覆盖了开发工作 80% 的重复任务，直接改改就能用：</p>
+
+<p class="h4-text">模板 1:<code>/cn-comment</code> — 把代码注释翻译成中文</p>
+
+<pre>---
+description: 把指定文件的英文注释翻译成中文
+allowed-tools: Read, Edit
+---
+
+文件路径:$ARGUMENTS
+
+读取这个文件,把所有英文注释翻译成简洁的中文注释。
+
+规则:
+- 保留代码不变
+- docstring / 多行注释完整翻译
+- 行内简短注释简洁翻译
+- 技术术语保留英文(比如 Promise、callback、async)</pre>
+
+<p><strong>用法</strong>：<code>/cn-comment src/auth/login.ts</code></p>
+
+<p class="h4-text">模板 2:<code>/daily-summary</code> — 自动日报</p>
+
+<pre>---
+description: 生成今天的工作总结
+allowed-tools: Bash(git *)
+---
+
+执行:
+1. `git log --author="$(git config user.name)" --since="6am" --all` 看今天所有 commit
+2. 分析每个 commit 的改动
+3. 按"完成的功能"、"修复的 bug"、"正在进行"分类
+4. 生成 markdown 格式的日报
+5. 包含 commit hash 和简要说明
+
+输出用中文。</pre>
+
+<p class="h4-text">模板 3:<code>/security-check</code> — 安全检查</p>
+
+<pre>---
+description: 扫描代码安全隐患
+allowed-tools: Read, Grep, Glob
+model: claude-opus-4-7
+---
+
+扫描当前项目的安全问题:
+
+重点检查:
+1. 硬编码的密钥、token、密码
+2. SQL 注入风险(拼接的查询)
+3. XSS 风险(未转义的 HTML)
+4. 路径穿越(用户输入直接拼接到文件路径)
+5. 不安全的依赖版本
+6. 敏感信息写入日志
+
+每个发现给出:
+- 文件和行号
+- 问题描述
+- 严重级别(Critical/High/Medium/Low)
+- 修复建议</pre>
+
+<p class="h4-text">模板 4:<code>/pr-prep</code> — PR 准备</p>
+
+<pre>---
+description: 为当前分支准备 PR
+allowed-tools: Bash(git *), Bash(gh *)
+---
+
+执行:
+1. `git diff main...HEAD` 看本分支所有改动
+2. 运行测试,确保通过
+3. 生成 PR 描述,包含:
+   - 变更摘要
+   - 动机和背景
+   - 主要改动点(按文件分类)
+   - 测试说明
+   - 风险评估
+4. 用 `gh pr create` 创建 PR
+
+PR 标题格式:&lt;类型&gt;: &lt;描述&gt;
+PR 描述用中文</pre>
+
+<h3>4.8.5 团队共享命令</h3>
+
+<p>把 <code>.claude/commands/</code> 签入 git，团队成员 pull 下来就自动有了：</p>
+
+<pre>cd &lt;项目根&gt;
+mkdir -p .claude/commands
+# 把命令文件放进去
+git add .claude/commands
+git commit -m "add team slash commands"
+git push</pre>
+
+<p>同事 pull 之后，在项目里 <code>/命令名</code> 就能用，<strong>全团队步调一致</strong>。</p>
+
+<div class="tips">
+<strong>命令 vs Skill</strong>：命令是“简单一个 .md = 一个 slash 命令”;Skill 更高级，可以指定何时<strong>自动触发</strong>（不用你手敲），可以包含多个脚本文件。新项目建议用 Skill，但先把命令用熟了再过渡更顺。
+</div>
+
+<h2>4.9 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 写一个最小可用的 SKILL.md，包含正确的 <code>name</code> 和 <code>description</code></li>
+<li>✅ 发一个带工具的请求，识别 <code>tool_use</code> / <code>tool_result</code> 的消息流</li>
+<li>✅ 知道哪些模型支持手动扩展思考，哪些必须用自适应思考</li>
+<li>✅ 对一个长系统提示启用提示缓存，观察输入 token 成本下降</li>
+<li>✅ 解释“上下文衰退”是什么，它为什么不是“上下文越大越好”</li>
+<li>✅ 用 <code>/loop</code> 让 Claude 每 5 分钟做一件事</li>
+<li>✅ 写一个项目级自定义命令并签入 git 共享给团队</li>
+</ul>
+</div>
+
+
+<h2>4.10 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="02-quickstart.html"><span class="ch-name">→ 第二章 · 快速入门</span></a><br><span style="color:#666;font-size:13px">回顾基础 API 调用</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="03-claude-code.html"><span class="ch-name">→ 第三章 · Claude Code</span></a><br><span style="color:#666;font-size:13px">Skills 和 / 命令在 Claude Code 里的具体落地</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="05-harness.html"><span class="ch-name">→ 第五章 · Agent Harness</span></a><br><span style="color:#666;font-size:13px">把本章能力组合起来构建真正的 Agent</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="appendix-a-models.html"><span class="ch-name">→ 附录 A · 模型对照表</span></a><br><span style="color:#666;font-size:13px">扩展思考 / 预填充等能力的模型支持矩阵</span></div></div>
+</div>
+
+<div class="pager">
+<a href="03-claude-code.html">← 第三章：Claude Code</a>
+<a href="05-harness.html">下一章：Agent Harness →</a>
+</div>
+
+</div>
+</body>
+</html>

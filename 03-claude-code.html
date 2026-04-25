@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第三章 · Claude Code 基础使用 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+h4{color:#444;margin:20px 0 10px;font-size:15.5px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.danger{background:#fdecea;padding:14px 18px;border-left:4px solid #e74c3c;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+.steps{margin:20px 0}
+.step{margin-bottom:22px;padding-left:44px;position:relative}
+.step::before{content:attr(data-step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:#007bff;color:#fff;text-align:center;line-height:30px;font-weight:600;font-size:14px}
+.step-title{font-weight:600;margin-bottom:8px;font-size:16px}
+.h4-text{font-weight:600;color:#444;margin:20px 0 10px;font-size:16px;line-height:1.5}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html" class="current">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第三章 · Claude Code 基础使用</div>
+
+<h1>第三章 · Claude Code 基础使用</h1>
+
+<h2>3.1 Claude Code 是什么（先建立心智模型）</h2>
+
+<p>Claude Code 是一款<strong>命令行 AI 编程助手</strong>。它直接在终端运行，能读写文件、执行命令、理解整个代码仓库。</p>
+
+<p>它<strong>不是编辑器插件</strong>——你不是在 VS Code 里用它，而是<strong>打开项目目录、启动它、用自然语言描述需求</strong>，它返回一个像同事一样会改代码、跑测试、写提交信息的 AI。</p>
+
+<div class="tips">
+<strong>一句话区分</strong>：
+<ul style="margin-bottom:0">
+<li><strong>代码补全类工具</strong>：逐行补全你正在写的代码</li>
+<li><strong>Claude Code</strong>：给它任务，它自己决定读哪些文件、改哪些代码、跑什么命令——然后把结果报告给你</li>
+</ul>
+</div>
+
+<h2>3.2 安装（macOS）</h2>
+
+<div class="note"><strong>前置条件</strong>：macOS 10.15+、Node.js &ge; 18、可访问 AI 服务或合规 API 代理的网络。</div>
+
+<h3>3.2.1 装 Node.js（推荐用 nvm，避免 sudo 权限问题）</h3>
+
+<pre>brew install nvm
+mkdir -p ~/.nvm
+
+# 写入 zsh 配置
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.zshrc
+echo '[ -s "$(brew --prefix nvm)/nvm.sh" ] && . "$(brew --prefix nvm)/nvm.sh"' >> ~/.zshrc
+source ~/.zshrc
+
+# 安装 LTS 版本的 Node
+nvm install --lts
+node --version && npm --version</pre>
+
+<p><strong>完成标志</strong>：终端输出类似 <code>v22.x.x</code> 的 Node 版本号 + <code>10.x.x</code> 的 npm 版本号。</p>
+
+<h3>3.2.2 装 Claude Code CLI</h3>
+
+<pre>npm install -g @anthropic-ai/claude-code
+claude --version</pre>
+
+<p><strong>完成标志</strong>：输出 <code>@anthropic-ai/claude-code/x.y.z</code> 格式的版本号。</p>
+
+<div class="warning">
+<strong>⚠️ 如果你已经用 brew 装过 node，又遇到 EACCES 权限错</strong>：<strong>不要用 <code>sudo</code> 硬装</strong>——那样会埋下未来全局包冲突的雷。正确做法是先卸载 brew 版 node，再装 nvm:
+<pre style="margin-top:8px">brew uninstall node
+# 然后按 3.2.1 装 nvm 并重新装 LTS 版本</pre>
+</div>
+
+<h3>3.2.3 装 VS Code 扩展（可选但推荐）</h3>
+
+<p>在 VS Code 扩展市场搜索 <strong>Claude Code for VS Code</strong>（发布者：Anthropic），点击安装。装完重启 VS Code。</p>
+
+<h2>3.3 配置 API 代理</h2>
+
+<p>如果你用的是第三方 API 代理，需要修改 <code>~/.claude/settings.json</code>。如果文件不存在：</p>
+
+<pre>mkdir -p ~/.claude && touch ~/.claude/settings.json</pre>
+
+<p>写入以下内容（把 <code>你的 API Key</code> 替换成真实的）:</p>
+
+<pre>{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "你的 API Key",
+    "ANTHROPIC_BASE_URL": "https://api.你的代理.com",
+    "ANTHROPIC_MODEL": "claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-4-5-20251001",
+    "API_TIMEOUT_MS": "3000000",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+  "autoUpdatesChannel": "latest"
+}</pre>
+
+<div class="warning">
+<strong>关键易错点（务必看）</strong>:
+<ul style="margin-bottom:0">
+<li><code>ANTHROPIC_BASE_URL</code> 在 Claude Code 里 <strong>不带 <code>/v1</code></strong>——与直接调 REST API 不同</li>
+<li><code>API_TIMEOUT_MS: 3000000</code> = 50 分钟，适合长任务；太短会在复杂任务中途断开</li>
+<li>配置完后<strong>必须重启终端 / VS Code</strong>，否则不生效</li>
+</ul>
+</div>
+
+<h2>3.4 首次启动</h2>
+
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">进入你的项目目录</div>
+<pre>cd /path/to/your/project</pre>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">启动 Claude Code</div>
+<pre>claude</pre>
+<p>首次启动会让你登录账号或配置 API 密钥，按提示走即可。</p>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">发送第一条测试指令</div>
+<p>看到提示符 <code>&gt;</code> 后，直接输入：</p>
+<pre>&gt; 这个项目是做什么的?</pre>
+<p><strong>完成标志</strong>：Claude 会读取项目里的 README 和主要文件，给你一段项目概述。</p>
+</div>
+</div>
+
+<h2>3.5 三个真实场景：它能做什么</h2>
+
+<p>讲再多概念不如看真实对话。下面是三种最高频的开发场景，都是简化后的真实交互流。</p>
+
+<p class="h4-text">场景 A：修一个 bug</p>
+<pre>你:这个登录接口返回 500,帮我看看
+Claude:[读代码][跑测试][定位到 auth.ts 第 47 行][修改][重新跑测试]
+       已修复,原因是 JWT 过期时间判断反了,已加测试用例防止回归</pre>
+
+<p class="h4-text">场景 B：加新功能</p>
+<pre>你:给用户表加个软删除字段,别忘了更新所有查询
+Claude:[读 schema][写迁移文件][grep 所有查询][逐个更新][跑测试]
+       迁移文件已创建,12 处查询已更新,所有测试通过</pre>
+
+<p class="h4-text">场景 C：重构</p>
+<pre>你:这个 3000 行的文件太乱了,按职责拆成多个文件
+Claude:[分析依赖][规划拆分][创建新文件][移动代码][更新 import][跑测试]
+       已拆成 6 个文件,测试全绿</pre>
+
+<div class="tips">
+共同模式：你描述目标 → Claude <strong>自己规划 + 自己动手 + 自己验证</strong> → 给你结果。这是它和“代码补全”工具最根本的区别。
+</div>
+
+<h2>3.6 基本交互</h2>
+
+<p>启动后你会进入一个对话界面。直接用中文或英文描述需求：</p>
+
+<pre>&gt; 这个项目是做什么的?
+&gt; 帮我把 login 接口的参数校验补上
+&gt; 运行一下单元测试
+&gt; 这段代码有什么问题?</pre>
+
+<p>Claude Code 会<strong>自己决定</strong>：读哪些文件、改哪些代码、执行什么命令。涉及文件修改或命令执行时，它会先展示“打算做什么”，等你确认再执行。</p>
+
+<h3>3.6.1 高频快捷键</h3>
+<table>
+<tr><th>按键</th><th>作用</th></tr>
+<tr><td><code>Enter</code></td><td>发送</td></tr>
+<tr><td><code>Shift + Enter</code></td><td>换行（多行输入）</td></tr>
+<tr><td><code>Ctrl + C</code></td><td>中断当前操作（连按两次退出）</td></tr>
+<tr><td><code>Ctrl + D</code></td><td>退出程序</td></tr>
+<tr><td><code>Esc Esc</code></td><td>回滚到上一步（连按两次）</td></tr>
+<tr><td><code>Tab</code></td><td>显示 / 隐藏 Claude 的思考过程</td></tr>
+<tr><td><code>Ctrl + R</code></td><td>搜索历史命令</td></tr>
+<tr><td><code>Shift + Tab</code></td><td>循环切换“权限模式”（关键，见 §3.7）</td></tr>
+</table>
+
+<h3>3.6.2 三个魔法字符：@ # !</h3>
+
+<p>这三个字符会让 Claude Code 立刻进入特殊模式，效率提升明显：</p>
+
+<table>
+<tr><th>字符</th><th>用法</th><th>例子</th></tr>
+<tr><td><code>@&lt;路径&gt;</code></td><td><strong>文件路径自动补全</strong>——直接告诉 Claude 看哪个文件，比让它 grep 找省 token</td><td><code>看看 @src/auth/login.ts 怎么实现的</code></td></tr>
+<tr><td><code>!&lt;命令&gt;</code></td><td><strong>直接执行 bash</strong>，Claude 不介入。结果会自动进入对话上下文</td><td><code>! cat error.log</code> 然后 <code>分析这个报错</code></td></tr>
+<tr><td><code>#&lt;文字&gt;</code></td><td><strong>快速写入 memory</strong>，把临时结论沉淀到 CLAUDE.md</td><td><code># 项目用 pnpm 不是 npm</code></td></tr>
+</table>
+
+<div class="tips">
+<strong>实用经验</strong>：养成 <code>@文件路径</code> 的习惯。让 Claude 自己 grep 找文件，它会读 5–8 个无关文件才定位，token 哗哗地烧；直接 <code>@</code> 指路，一步到位。
+</div>
+
+<h3>3.6.3 读懂 Claude 的“工作日志”</h3>
+
+<p>Claude 干活时，屏幕上会输出一串“工具调用日志”。学会读它，你就能实时知道它在干什么：</p>
+
+<pre>* Read(package.json)
+  └ Read 42 lines
+
+* Bash(npm test)
+  └ Running tests...
+  └ All tests passed
+
+* Edit(src/auth.ts)
+  └ Updated 3 lines</pre>
+
+<p>关键符号：</p>
+<ul>
+<li><code>*</code> 表示 Claude<strong>调用了一个工具</strong></li>
+<li><code>└</code> 表示这个工具的<strong>执行结果</strong></li>
+<li>工具名（<code>Read</code> / <code>Edit</code> / <code>Bash</code> / <code>Glob</code> / <code>Grep</code> 等）告诉你它在做什么</li>
+</ul>
+
+<div class="warning">
+看到 Claude 在<strong>反复 <code>Read</code> 同一个文件</strong>，或在<strong>大量 <code>Glob</code> / <code>Grep</code></strong>——它在“找东西”找不到。立刻 <code>Ctrl+C</code> 打断，直接用 <code>@文件路径</code> 告诉它去哪儿看。
+</div>
+
+<h3>3.6.4 日常必用的 10 个斜杠命令</h3>
+<table>
+<tr><th>命令</th><th>作用</th><th>什么时候用</th></tr>
+<tr><td><code>/help</code></td><td>列出所有命令</td><td>忘记命令时的兜底</td></tr>
+<tr><td><code>/clear</code></td><td>清空当前对话</td><td>切换到不相关的任务时（改完登录功能要改支付，先 <code>/clear</code>）</td></tr>
+<tr><td><code>/compact [focus]</code></td><td>压缩上下文，带 focus 参数告诉它保留什么</td><td>上下文 &gt; 80%，但还想继续当前任务</td></tr>
+<tr><td><code>/context</code></td><td>看上下文占用比例</td><td>感觉 Claude 开始“遗忘”早期信息时</td></tr>
+<tr><td><code>/cost</code></td><td>查看本次会话花了多少钱</td><td>避免一不小心烧了几十刀</td></tr>
+<tr><td><code>/model</code></td><td>切换模型（opus / sonnet / haiku）</td><td>难题临时升 opus，完事切回 sonnet 省钱</td></tr>
+<tr><td><code>/init</code></td><td>为当前项目生成 CLAUDE.md</td><td>进入任何新项目第一件事</td></tr>
+<tr><td><code>/review</code></td><td>对当前分支做代码审查</td><td>Claude 改完一个东西，你眼花了让它自审</td></tr>
+<tr><td><code>/permissions</code></td><td>管理工具白名单</td><td>把 <code>npm test</code>、<code>git status</code> 加白名单避免反复确认</td></tr>
+<tr><td><code>/quit</code></td><td>退出</td><td>—</td></tr>
+</table>
+
+<p><strong>记忆技巧</strong>：不需要背，输入 <code>/</code> 就会有自动补全提示。</p>
+
+<h2>3.7 权限模式：Shift+Tab 循环切换（核心概念）</h2>
+
+<p>这是 Claude Code <strong>最重要的概念</strong>。理解了权限模式，你就知道怎么在“安全”和“别打断我”之间平衡。</p>
+
+<h3>3.7.1 为什么要有权限模式</h3>
+
+<p>Claude Code 默认<strong>每个操作都问你</strong>：写文件问一次、跑 bash 命令问一次、访问网络问一次。</p>
+
+<ul>
+<li>✅ 好处：安全，不会乱动东西</li>
+<li>❌ 坏处：长任务会被打断几十次，烦到崩溃</li>
+</ul>
+
+<p>所以官方设计了 <strong>5 种权限模式</strong>，你按需切换。</p>
+
+<h3>3.7.2 5 种权限模式</h3>
+
+<table>
+<tr><th>模式</th><th>特点</th><th>什么时候用</th></tr>
+<tr><td><code>default</code></td><td>每一步都问你</td><td>不熟悉的代码库、关键生产代码、重要重构</td></tr>
+<tr><td><code>acceptEdits</code></td><td>自动批准：工作目录内的文件创建/编辑/删除、基础文件命令（<code>mkdir</code>/<code>touch</code>/<code>rm</code>/<code>mv</code>/<code>cp</code>/<code>sed</code>）。<strong>仍会问</strong>：<code>npm test</code>、<code>git push</code>、<code>curl</code> 等其他 bash 命令</td><td>明确范围的改动，事后用 <code>git diff</code> 统一审</td></tr>
+<tr><td><code>plan</code></td><td><strong>只读模式</strong>。可以读文件、提建议、出方案，但不改任何源码</td><td>大重构之前，先让它出方案</td></tr>
+<tr><td><code>auto</code></td><td>分类器审查每一步：安全操作自动放行，危险操作自动拦截。<strong>需 Max+ 账号</strong>且 v2.1.83+</td><td>长时间跑、不想被打扰</td></tr>
+<tr><td><code>bypassPermissions</code></td><td><strong>YOLO 模式</strong>：完全放行，不问不审，所有操作直接执行</td><td><strong>只在隔离环境用</strong>：Docker 容器、VM、沙盒</td></tr>
+</table>
+
+<div class="warning">
+<strong>关于 acceptEdits 的常见误解</strong>：很多人以为它是“放行一切”，其实<strong>不是</strong>。它<strong>只放行</strong>文件编辑和基础文件操作，跑测试、推代码、调网络等仍会问你。
+</div>
+
+<div class="danger">
+<strong>受保护路径永远会问</strong>：无论什么模式，对 <code>.git/</code>、<code>.claude/</code>、<code>.claude/skills/</code> 的写入<strong>永远</strong>需要确认。这是 Claude Code 自己的“安全网”。
+</div>
+
+<h3>3.7.3 Shift+Tab 循环</h3>
+
+<p>按 <code>Shift+Tab</code> 在模式间切换，看屏幕底部状态栏会变：</p>
+
+<pre>default → acceptEdits → plan → [auto] → [bypassPermissions] → default
+                                  ↑              ↑
+                              账号资格够    启动时带了特定参数</pre>
+
+<p>默认只循环前 3 个。后 2 个要启用：</p>
+
+<pre># 启用 auto mode(需 Max+ 账号)
+claude --enable-auto-mode
+
+# 让 bypassPermissions 进入循环(但不立即激活)
+claude --allow-dangerously-skip-permissions
+
+# 直接以 YOLO 模式启动(谨慎!)
+claude --dangerously-skip-permissions</pre>
+
+<h3>3.7.4 设置默认模式</h3>
+
+<p>不想每次手动切，在 <code>~/.claude/settings.json</code> 里永久设置：</p>
+
+<pre>{
+  "permissions": {
+    "defaultMode": "acceptEdits"
+  }
+}</pre>
+
+<p>有效值：<code>default</code>、<code>acceptEdits</code>、<code>plan</code>、<code>dontAsk</code>、<code>bypassPermissions</code>。</p>
+
+<h3>3.7.5 给常用命令开白名单</h3>
+
+<p>想保持 default 模式的安全性，又不想每次 <code>npm test</code> 都问？用 <code>/permissions</code> 加白名单：</p>
+
+<pre>/permissions
+
+# 添加 allow 规则
+Bash(npm test)
+Bash(git add *)
+Bash(git commit *)
+Bash(git status)</pre>
+
+<p>这样既保持默认模式的警觉，又不会被高频命令打扰。</p>
+
+<h3>3.7.6 推荐的模式选择</h3>
+
+<table>
+<tr><th>场景</th><th>推荐模式</th></tr>
+<tr><td>新项目第一次用、不了解代码库</td><td><code>default</code></td></tr>
+<tr><td>明确范围的改动，想事后用 <code>git diff</code> 统一审</td><td><code>acceptEdits</code></td></tr>
+<tr><td>大重构之前，先让它出方案</td><td><code>plan</code></td></tr>
+<tr><td>长时间跑、不想被打扰、有 Max 账号</td><td><code>auto</code></td></tr>
+<tr><td>CI/CD pipeline、Docker 容器内</td><td><code>bypassPermissions</code></td></tr>
+</table>
+
+<h2>3.8 它走偏了怎么办：打断与改错恢复</h2>
+
+<h3>3.8.1 症状：Claude 在往错的方向跑</h3>
+
+<p><strong>解决</strong>：立刻按 <code>Ctrl + C</code> 打断它。然后重新描述需求：</p>
+
+<pre>&gt; 等等,我不是要你重写整个文件,只要改那个 bug</pre>
+
+<div class="warning">
+<strong>不要等它继续</strong>——AI 一旦走偏，往往会越走越偏。<strong>早停早省钱</strong>。
+</div>
+
+<h3>3.8.2 症状：它改错了、改坏了</h3>
+
+<p>不要慌。按下面顺序处理：</p>
+
+<ol>
+<li>按 <code>Ctrl + C</code> 打断当前操作</li>
+<li>按两下 <code>Esc</code>——这是<strong>回滚</strong>快捷键，可以撤销 Claude 最近的改动</li>
+<li>如果改动已经太多，在<strong>另一个终端窗口</strong>用 git 救：</li>
+</ol>
+
+<pre>git status              # 看被改了什么
+git diff                # 看具体改了啥
+git checkout &lt;file&gt;     # 单个文件撤销
+git reset --hard        # 全部撤销,回到上次提交(慎用)</pre>
+
+<h3>3.8.3 预防措施：养成“先 commit 再让它动手”的习惯</h3>
+
+<p>每次让 Claude 开始大改之前，先做一次 work-in-progress 提交（不用 push）:</p>
+
+<pre>git add .
+git commit -m "wip: before claude refactor"</pre>
+
+<div class="tips">
+<strong>这个习惯能救命</strong>：无论 Claude 改坏了什么，一句 <code>git reset --hard</code> 就能回到上次提交的状态。<strong>没有 git，就没有后悔药</strong>——所以一开始就在有 git 的目录里用 Claude Code。
+</div>
+
+<h3>3.8.4 一个完整的“安全开始”流程</h3>
+
+<pre># 在一个还没初始化 git 的目录里,先初始化
+git init
+git add .
+git commit -m "initial commit before claude code"
+
+# 然后再启动 claude
+claude</pre>
+
+<h2>3.9 项目专属配置：CLAUDE.md</h2>
+
+<p>在项目根目录放一个 <code>CLAUDE.md</code> 文件，Claude Code 每次启动会自动读取。用来告诉它这个项目的专属规则：</p>
+
+<pre># 项目规则
+
+- 包管理工具用 pnpm,不要用 npm
+- 提交信息写中文
+- 测试框架是 vitest
+- API 路由文件在 src/routes/ 目录下
+- 代码规范遵循团队 eslint 配置</pre>
+
+<p>优先级：<strong>项目级 <code>CLAUDE.md</code> &gt; 用户全局 <code>~/.claude/CLAUDE.md</code></strong>。</p>
+
+<div class="tips">
+该文件建议提交到 Git，让团队成员共享同一套规则。新同事 clone 代码 + 装好 Claude Code，就自动拥有了团队的编码习惯。
+</div>
+
+<h3>3.9.1 一个完整的 CLAUDE.md 实例</h3>
+
+<p>下面这份 CLAUDE.md 来自一个真实的 FastAPI 项目，展示了一个“高质量”CLAUDE.md 应有的结构：</p>
+
+<pre># 项目名称
+这是一个基于 FastAPI 的订单管理服务。
+
+## 技术栈
+- Python 3.11 + FastAPI
+- PostgreSQL 15 + SQLAlchemy 2.0 (async)
+- Redis 用于缓存和消息队列
+- pytest + pytest-asyncio 用于测试
+
+## 目录结构
+- `app/api/`      - HTTP 接口层
+- `app/services/` - 业务逻辑层
+- `app/models/`   - 数据库模型
+- `app/utils/`    - 工具函数
+- `tests/`        - 测试代码
+
+## 开发规矩
+- 所有数据库操作必须用 async/await
+- 新增接口必须写集成测试,放在 tests/integration/
+- 用 Pydantic v2 做数据校验,不要用 dataclasses
+- 不要直接 print,用 logger (from app.utils.logging import logger)
+- 所有金额字段用 Decimal,不要用 float
+
+## 常用命令
+- 跑所有测试:`pytest`
+- 跑某模块测试:`pytest tests/unit/test_orders.py`
+- 启动开发服务器:`uvicorn app.main:app --reload`
+- 生成数据库迁移:`alembic revision --autogenerate -m "description"`
+
+## 常见坑
+- 本地跑测试前记得先启动 postgres 和 redis:`docker compose up -d`
+- 不要直接修改 `alembic/versions/` 里的旧迁移,要改就加新迁移
+
+## API 规范
+详见 @docs/api-spec.md</pre>
+
+<h3>3.9.2 CLAUDE.md 的 4 条核心原则</h3>
+
+<table>
+<tr><th>原则</th><th>说明</th><th>反例</th></tr>
+<tr><td><strong>保持在 200 行以内</strong></td><td>每次会话都加载它——越长每条消息的 token 成本就越高</td><td>把整本 API 文档塞进 CLAUDE.md</td></tr>
+<tr><td><strong>写 Claude 容易犯的错</strong></td><td>例：“所有金额字段用 Decimal，不要用 float”——这样它就不会写出有精度问题的代码</td><td>写“代码要规范”这种空话</td></tr>
+<tr><td><strong>写工具路径和命令</strong></td><td>例：“跑测试 <code>pytest tests/</code>”——它就不用自己摸索</td><td>让 Claude 自己 grep 找 package.json</td></tr>
+<tr><td><strong>写目录约定</strong></td><td>例：“数据库模型放 <code>app/models/</code>”——新文件会放对位置</td><td>不写，任由 Claude 自己决定文件放哪</td></tr>
+</table>
+
+<h3>3.9.3 多层 CLAUDE.md（个人偏好 + 项目规则）</h3>
+
+<p>CLAUDE.md 可以分层加载，优先级从下到上：</p>
+
+<table>
+<tr><th>位置</th><th>用途</th><th>典型内容</th></tr>
+<tr><td><code>~/.claude/CLAUDE.md</code></td><td>个人全局——所有项目都加载</td><td>语言偏好、注释风格、个人禁忌</td></tr>
+<tr><td><code>&lt;项目根&gt;/CLAUDE.md</code></td><td>项目级</td><td>技术栈、目录约定、命令、坑</td></tr>
+<tr><td><code>&lt;子目录&gt;/CLAUDE.md</code></td><td>子目录级——只在这个子目录工作时加载</td><td>子模块的特殊规则（如 frontend/ vs backend/）</td></tr>
+</table>
+
+<p>个人全局的可以这样写：</p>
+
+<pre># 个人偏好
+- 代码注释用中文
+- commit message 用中文,格式:&lt;类型&gt;(&lt;范围&gt;): &lt;描述&gt;
+- 不要用 emoji
+- 不要在回复里总结我让你做了什么,直接告诉我结果就行</pre>
+
+<h3>3.9.4 用 @file 引用大文件</h3>
+
+<p>CLAUDE.md 里<strong>不要</strong>塞整个 API 文档，用引用就行：</p>
+
+<pre>## API 规范
+详见 @docs/api-spec.md</pre>
+
+<p>Claude 需要的时候才会读 <code>docs/api-spec.md</code>，平时不占 token——这就是渐进式披露在 CLAUDE.md 上的应用。</p>
+
+<div class="tips">
+<strong>💡 CLAUDE.md 何时生效</strong>：修改 <code>CLAUDE.md</code> 后，<strong>下次 <code>claude</code> 启动时</strong>才会重新加载；<strong>当前会话不受影响</strong>。如果你改完之后想立刻让新规则生效，需要 <code>/quit</code> 退出后重新 <code>claude</code> 启动（或者用 <code>claude --resume</code> 在新会话里接续原任务）。
+</div>
+
+<h2>3.10 终端命令透传（和 shell 配合）</h2>
+
+<p>对话里用 <code>!</code> 前缀可以直接执行 shell 命令，结果自动进入对话上下文：</p>
+
+<pre>&gt; ! cat error.log
+&gt; 帮我分析这个报错的原因并给出修复方案</pre>
+
+<p>也可以用管道做非交互模式（适合写进脚本）:</p>
+
+<pre>git diff | claude -p "帮我 review 这些改动"
+cat server.log | claude -p "分析最近的服务异常"</pre>
+
+<p>其中 <code>-p</code> 表示 “<strong>p</strong>rompt 模式”：输入一个问题、拿到回答后自动退出，不进入对话。</p>
+
+<h2>3.11 图片理解</h2>
+
+<p>直接把截图路径贴进对话：</p>
+
+<pre>&gt; 看下这个页面截图有什么问题 /tmp/screenshot.png
+&gt; 根据这个设计稿生成前端代码 /Users/xxx/design.png</pre>
+
+<p>适合用来排查 UI 问题或让 AI 看设计稿生成代码。</p>
+
+<h2>3.12 典型工作流：排查并修复一个 Bug</h2>
+
+<pre>&gt; 运行 npm test 看看现在什么情况
+(Claude 执行测试,发现 3 个用例失败)
+
+&gt; 分析一下失败原因,修一下
+(Claude 读相关代码,定位问题,提出修改方案,等你确认)
+
+&gt; 再跑一遍测试
+(确认全部通过)
+
+&gt; 看看当前改了什么,帮我写个 commit message</pre>
+
+<h2>3.13 会话管理（长任务必看）</h2>
+
+<p>Claude Code 的对话有上下文窗口限制。当对话变长：</p>
+
+<ul>
+<li><strong>手动压缩</strong>：输入 <code>/compact</code>，Claude 会总结之前的对话并释放空间</li>
+<li><strong>清空重来</strong>：输入 <code>/clear</code>——当前话题已结束、要开新话题时用</li>
+<li><strong>恢复会话</strong>：关掉终端后，下次用 <code>claude --resume</code> 或简写 <code>claude -c</code> 接续</li>
+</ul>
+
+<h2>3.14 配置文件一览</h2>
+
+<table>
+<tr><th>文件</th><th>位置</th><th>用途</th></tr>
+<tr><td><code>CLAUDE.md</code></td><td>项目根目录</td><td>项目级指令——告诉 Claude 这个项目的规则</td></tr>
+<tr><td><code>.claude/settings.json</code></td><td>项目根目录</td><td>项目级配置——权限白名单、MCP 服务器</td></tr>
+<tr><td><code>.claude/commands/</code></td><td>项目根目录</td><td>项目级自定义 / 命令（团队共享，见第四章）</td></tr>
+<tr><td><code>~/.claude/CLAUDE.md</code></td><td>用户主目录</td><td>全局指令——所有项目生效</td></tr>
+<tr><td><code>~/.claude/settings.json</code></td><td>用户主目录</td><td>全局配置——API Key、默认模型、超时</td></tr>
+<tr><td><code>~/.claude/commands/</code></td><td>用户主目录</td><td>个人级自定义 / 命令</td></tr>
+</table>
+
+<p>项目级配置优先级 &gt; 全局配置。</p>
+
+<h2>3.15 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 在 macOS 上装好 nvm + Node + Claude Code CLI</li>
+<li>✅ 配好 <code>~/.claude/settings.json</code>，让 <code>claude</code> 命令能跑起来</li>
+<li>✅ 解释 5 种权限模式分别在什么场景用，会用 <code>Shift+Tab</code> 切换</li>
+<li>✅ 用 <code>@文件</code> / <code>!命令</code> / <code>#文字</code> 三个魔法字符</li>
+<li>✅ 看懂工作日志里 <code>*</code> 和 <code>└</code> 的含义，能识别“它在找东西找不到”</li>
+<li>✅ 改坏了能用 <code>Esc Esc</code> 或 <code>git reset --hard</code> 救回来</li>
+<li>✅ 会用 <code>/compact</code> / <code>/clear</code> / <code>--resume</code> 管理长对话</li>
+<li>✅ 能写一个 200 行以内、含“反例规则”的高质量 CLAUDE.md</li>
+</ul>
+</div>
+
+
+<h2>3.16 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力</span></a><br><span style="color:#666;font-size:13px">Skills 和自定义命令的进阶玩法</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="05-harness.html"><span class="ch-name">→ 第五章 · Agent Harness</span></a><br><span style="color:#666;font-size:13px">理解 Claude Code 背后的“操作系统”架构</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="06-troubleshooting.html"><span class="ch-name">→ 第六章 · 常见问题</span></a><br><span style="color:#666;font-size:13px">6.1–6.3 + 6.4 覆盖 Claude Code 常见问题</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="07-cost-saving.html"><span class="ch-name">→ 第七章 · 省钱与成本</span></a><br><span style="color:#666;font-size:13px">实用的 token 节省技巧</span></div></div>
+</div>
+
+<div class="pager">
+<a href="02-quickstart.html">← 第二章：快速入门</a>
+<a href="04-advanced.html">下一章：进阶能力 →</a>
+</div>
+
+</div>
+</body>
+</html>

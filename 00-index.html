@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:8px;border-bottom:2px solid #e6e8eb;padding-bottom:20px;text-align:center;font-size:28px}
+h2{color:#222;margin:44px 0 20px;border-left:4px solid #007bff;padding-left:16px;font-size:22px}
+h3{color:#333;margin:28px 0 14px;font-size:18px}
+h4{color:#444;margin:20px 0 12px;font-size:16px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.cover{text-align:center;padding:20px 0 30px;border-bottom:1px solid #e6e8eb;margin-bottom:30px}
+.cover .subtitle{color:#666;font-size:15px;margin-top:6px}
+.cover .meta{color:#999;font-size:14px;margin-top:14px}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.danger{background:#fdecea;padding:14px 18px;border-left:4px solid #e74c3c;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+.toc{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:24px 28px;margin:20px 0 36px}
+.toc h3{margin-top:0;border-bottom:1px solid #e6e8eb;padding-bottom:10px}
+.toc ol{margin-left:22px}
+.toc li{margin-bottom:6px;font-size:14.5px}
+.toc li strong{color:#007bff}
+.persona{background:#faf5ff;border:1px solid #e5d4f7;border-radius:8px;padding:18px 22px;margin:18px 0}
+.persona-name{font-weight:600;color:#6b2fb3;margin-bottom:10px}
+.card-group{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:18px 0}
+.card{border:1px solid #e6e8eb;border-radius:8px;padding:18px;background:#fff;transition:box-shadow 0.2s,border-color 0.2s}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,0.08);border-color:#007bff}
+.card a{color:inherit;text-decoration:none;display:block}
+.card-title{font-weight:600;margin-bottom:6px;color:#007bff;font-size:15.5px}
+.card-desc{color:#666;font-size:13.5px;line-height:1.55}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+.pager .empty{visibility:hidden}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html" class="current">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="cover">
+<div style="font-size:14px;color:#666;letter-spacing:2px;margin-bottom:6px">产品系列：Claude</div>
+<h1>Claude 使用手册</h1>
+<div class="subtitle">Claude API 与 Claude Code 使用指南 · 含 Skills、工具使用、Agent Harness 进阶</div>
+<div class="meta" style="margin-top:18px">
+版本号：v1.0（2026-04 · 基于 Claude Opus 4.7）<br>
+制作团队：北京大学软件与微电子学院 · MEM · 2025–2026 学年第二学期 · 技术写作课程项目<br>
+小组成员：张子孺、郭淳熙、冯鑫、金茂月、张明语
+</div>
+</div>
+
+<div class="note">
+<strong>读完本手册你能做什么</strong>：在 30 分钟内跑通第一个 Claude 调用，并在一周内掌握日常使用。手册聚焦“按步就能用起来”的最小闭环；追求百科式完整的内容请查阅各章末尾的延伸方向。
+</div>
+
+<h2>目录</h2>
+<div class="toc">
+<ol>
+<li><a href="01-concept.html"><strong>第一章 · 什么是 Claude</strong></a> —— 用一个类比在 3 分钟内建立心智模型 <em>（概念 + 说服性）</em></li>
+<li><a href="02-quickstart.html"><strong>第二章 · 快速入门</strong></a> —— 5 分钟完成第一次 API 调用，支持 5 种语言 <em>（操作任务）</em></li>
+<li><a href="03-claude-code.html"><strong>第三章 · Claude Code 基础使用</strong></a> —— 在终端里让 AI 帮你写代码 <em>（操作任务 + 概念）</em></li>
+<li><a href="04-advanced.html"><strong>第四章 · 进阶能力</strong></a> —— Skills / 工具 / 扩展思考 / 提示缓存 <em>（概念 + 操作任务）</em></li>
+<li><a href="05-harness.html"><strong>第五章 · Agent Harness</strong></a> —— 为什么强模型 + 裸奔环境 &lt; 弱模型 + Harness <em>（概念 + 说服性）</em></li>
+<li><a href="06-troubleshooting.html"><strong>第六章 · 常见问题</strong></a> —— 20 个最常踩的坑及解决方案 <em>（故障排除）</em></li>
+<li><a href="07-cost-saving.html"><strong>第七章 · 省钱与成本控制</strong></a> —— 8 个具体技巧 + 实际花费参考表 <em>（说服性 + 操作任务）</em></li>
+<li><a href="08-usability-test.html"><strong>第八章 · 可用性测试报告</strong></a> —— 测试方法 + 5 个发现问题 + 改进前后对比 <em>（加分项）</em></li>
+<li><a href="appendix-a-models.html"><strong>附录 A · 模型对照表</strong></a></li>
+<li><a href="appendix-b-glossary.html"><strong>附录 B · 术语表</strong></a></li>
+</ol>
+</div>
+
+<h2>前言 · 本手册写给谁用</h2>
+
+<p>下面两个画像描述了本手册的典型读者。如果你符合其中之一，本手册的章节顺序是为你优化的；不符合也可以按“怎么读这本手册”卡片自由跳转。</p>
+
+<div class="persona">
+<div class="persona-name">👤 画像 A · 小李，研二学生，想用 AI 加速科研</div>
+<ul style="margin-bottom:0">
+<li><strong>技术水平</strong>：会用网页版 AI 工具，不熟悉 API/SDK，没装过 Node.js</li>
+<li><strong>使用目标</strong>：跑文献综述、整理访谈逐字稿、给毕业论文润色</li>
+<li><strong>原话痛点</strong>：“我看到一堆英文链接，不知道从哪一步开始，也不知道 Claude API 和 Claude Code 是不是一个东西。”</li>
+<li><strong>接触点</strong>：本手册的“第一章 · 概念”和“第二章 · 快速入门”</li>
+</ul>
+</div>
+
+<div class="persona">
+<div class="persona-name">👨‍💻 画像 B · 小张，3 年工龄后端工程师，想把 AI 集成进日常开发</div>
+<ul style="margin-bottom:0">
+<li><strong>技术水平</strong>：熟悉 Python/Node.js、命令行、Git；用过代码补全类 AI 插件</li>
+<li><strong>使用目标</strong>：在终端里让 AI 重构老代码、写单元测试、排查线上 bug</li>
+<li><strong>原话痛点</strong>：“代码补全只能补行，我想让 AI 像同事一样读懂整个仓库、改多个文件、帮我跑测试。”</li>
+<li><strong>接触点</strong>：本手册的“第三章 · Claude Code”、“第四章 · 进阶”、“第五章 · Harness”</li>
+</ul>
+</div>
+
+<h3>用户旅程地图（User Journey Map）</h3>
+<table>
+<tr><th>阶段</th><th>用户任务</th><th>典型情绪</th><th>对应章节</th></tr>
+<tr><td>认知</td><td>听说 Claude 很强，但不知道能做什么</td><td>🤔 好奇</td><td>第一章 · 概念</td></tr>
+<tr><td>决策</td><td>判断用 API 还是 Claude Code</td><td>😐 纠结</td><td>第一章 · 1.2 两种产品形态</td></tr>
+<tr><td>安装</td><td>装 SDK / 装 CLI / 配 API Key</td><td>😰 焦虑</td><td>第二章 + 第三章</td></tr>
+<tr><td>首次使用</td><td>跑通第一个 Hello World</td><td>🎉 小兴奋</td><td>第二章</td></tr>
+<tr><td>日常使用</td><td>做任务、问问题、看代码</td><td>🙂 熟悉</td><td>第三章</td></tr>
+<tr><td>进阶</td><td>接入工具、Skills、长任务</td><td>🤨 好奇、遇阻</td><td>第四章 + 第五章</td></tr>
+<tr><td>故障</td><td>报错、Token 溢出、卡住</td><td>😤 挫败</td><td>第六章</td></tr>
+<tr><td>优化</td><td>发现账单很高，想省钱</td><td>😥 肉疼</td><td>第七章 · 省钱与成本控制</td></tr>
+<tr><td>验证</td><td>把手册交给同事，看他能不能用</td><td>🔬 反思</td><td>第八章 · 可用性测试报告</td></tr>
+</table>
+
+<h2>怎么读这本手册</h2>
+
+<div class="card-group">
+<div class="card"><a href="01-concept.html">
+<div class="card-title">我是新手用户 →</div>
+<div class="card-desc">从第一章开始，按顺序读到第三章，跳过第四、五章，遇到报错查第六章。</div>
+</a></div>
+<div class="card"><a href="02-quickstart.html">
+<div class="card-title">我是工程师，要立刻上手 →</div>
+<div class="card-desc">直接跳第二章。配好 API Key 跑通后，再回来看第三章 Claude Code。</div>
+</a></div>
+<div class="card"><a href="05-harness.html">
+<div class="card-title">我要做长任务 / Agent →</div>
+<div class="card-desc">先读第一章建立心智模型，然后直接看第五章 Harness。</div>
+</a></div>
+<div class="card"><a href="06-troubleshooting.html">
+<div class="card-title">我被报错卡住了 →</div>
+<div class="card-desc">直接翻第六章，按“症状”找。大多数问题都有对应的“可能原因+方案”。</div>
+</a></div>
+<div class="card"><a href="07-cost-saving.html">
+<div class="card-title">我担心 Token 烧太快 →</div>
+<div class="card-desc">直接看第七章 8 个省钱技巧，以及实际花费参考表。</div>
+</a></div>
+<div class="card"><a href="08-usability-test.html">
+<div class="card-title">我想看手册是怎么验证的 →</div>
+<div class="card-desc">第八章可用性测试报告：2 个测试者 · 5 个真实问题 · 改进前后对比。</div>
+</a></div>
+</div>
+
+<h2>新手 4 阶段学习路径</h2>
+
+<p>不要一次想吃完整本手册——按下面 4 个阶段循序渐进，每个阶段对应不同章节。</p>
+
+<table>
+<tr><th>阶段</th><th>时间</th><th>目标</th><th>对应章节</th></tr>
+<tr><td><strong>第 1 周</strong></td><td>第一次接触</td><td>装好环境、跑通 Hello World、知道大致能干什么</td><td>第一章 + 第二章 + 第三章前半</td></tr>
+<tr><td><strong>第 2-3 周</strong></td><td>上手实战</td><td>把 10 个常用命令练成肌肉记忆；在<strong>不重要</strong>的个人项目里用，熟悉 5 种权限模式</td><td>第三章全部 + 第六章按需查</td></tr>
+<tr><td><strong>第 1 个月</strong></td><td>进阶优化</td><td>开始写自己的 / 命令、用 <code>/loop</code> 做 agent 式工作、用 <code>/cost</code> 控成本</td><td>第四章 + 第七章</td></tr>
+<tr><td><strong>3 个月后</strong></td><td>团队推广</td><td>把命令库共享到 git；探索 Skills、Sub-Agents、MCP 集成等高阶功能</td><td>第四章 §4.8 + 第五章</td></tr>
+</table>
+
+<div class="tips">
+<strong>三句话原则</strong>（读完整本手册后唯一需要记住的）:
+<ol style="margin-bottom:0;margin-top:6px">
+<li><strong>把 Claude 当协作者，不是魔法</strong></li>
+<li><strong>先 commit，再动手，git 是你最后的安全网</strong></li>
+<li><strong>权限模式是你的朋友——选对模式比选对模型重要</strong></li>
+</ol>
+</div>
+
+<h2>信息架构：从用户旅程到章节结构</h2>
+
+<p>本手册的章节不是凭感觉排的，而是从用户旅程地图里的 <strong>8 项关键任务（T0–T7）</strong>推导出来的。下面用层次任务分析（HTA, Hierarchical Task Analysis）的<strong>全景树</strong>展示所有用户任务如何分 3 个阶段，以及每项任务对应到哪一个章节。</p>
+
+<div style="background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:22px;margin:18px 0;overflow-x:auto">
+<svg width="780" height="390" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;max-width:100%;height:auto">
+  <!-- 根节点 -->
+  <rect x="280" y="10" width="220" height="46" rx="6" fill="#007bff"/>
+  <text x="390" y="32" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">使用 Claude 完成工作</text>
+  <text x="390" y="48" text-anchor="middle" fill="#e7f5ff" font-size="11">（HTA 根任务）</text>
+  <!-- 根 → 3 阶段 -->
+  <line x1="390" y1="56" x2="120" y2="90" stroke="#999" stroke-width="1.5"/>
+  <line x1="390" y1="56" x2="390" y2="90" stroke="#999" stroke-width="1.5"/>
+  <line x1="390" y1="56" x2="660" y2="90" stroke="#999" stroke-width="1.5"/>
+  <!-- 3 阶段 -->
+  <rect x="20" y="90" width="200" height="44" rx="5" fill="#e7f5ff" stroke="#007bff"/>
+  <text x="120" y="108" text-anchor="middle" fill="#222" font-size="12.5" font-weight="600">阶段 A · 入门</text>
+  <text x="120" y="124" text-anchor="middle" fill="#555" font-size="11">先懂再用（T0–T1）</text>
+  <rect x="290" y="90" width="200" height="44" rx="5" fill="#e7f5ff" stroke="#007bff"/>
+  <text x="390" y="108" text-anchor="middle" fill="#222" font-size="12.5" font-weight="600">阶段 B · 上手</text>
+  <text x="390" y="124" text-anchor="middle" fill="#555" font-size="11">编程 / 扩展（T2–T4）</text>
+  <rect x="560" y="90" width="200" height="44" rx="5" fill="#e7f5ff" stroke="#007bff"/>
+  <text x="660" y="108" text-anchor="middle" fill="#222" font-size="12.5" font-weight="600">阶段 C · 保障</text>
+  <text x="660" y="124" text-anchor="middle" fill="#555" font-size="11">稳住 / 省钱 / 验证（T5–T7）</text>
+  <!-- 阶段 → 任务（虚线连接） -->
+  <line x1="120" y1="134" x2="120" y2="170" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="390" y1="134" x2="390" y2="170" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="660" y1="134" x2="660" y2="170" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- Row 1：T0、T2、T5 -->
+  <rect x="20" y="170" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="30" y="190" fill="#333" font-size="11.5" font-weight="600">T0 · 理解 Claude 是什么</text>
+  <text x="30" y="210" fill="#228b22" font-size="10.5">→ 第一章 · 概念 + 说服性</text>
+  <rect x="290" y="170" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="300" y="190" fill="#333" font-size="11.5" font-weight="600">T2 · 在终端让 AI 帮写代码</text>
+  <text x="300" y="210" fill="#228b22" font-size="10.5">→ 第三章 · 操作任务 + 概念</text>
+  <rect x="560" y="170" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="570" y="190" fill="#333" font-size="11.5" font-weight="600">T5 · 遇到报错能自救</text>
+  <text x="570" y="210" fill="#228b22" font-size="10.5">→ 第六章 · 常见问题</text>
+  <!-- Row 1 → Row 2 -->
+  <line x1="120" y1="220" x2="120" y2="238" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="390" y1="220" x2="390" y2="238" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="660" y1="220" x2="660" y2="238" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- Row 2：T1、T3、T6 -->
+  <rect x="20" y="238" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="30" y="258" fill="#333" font-size="11.5" font-weight="600">T1 · 跑通第一次 API 调用</text>
+  <text x="30" y="278" fill="#228b22" font-size="10.5">→ 第二章 · 操作任务（5 语言）</text>
+  <rect x="290" y="238" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="300" y="258" fill="#333" font-size="11.5" font-weight="600">T3 · 用 Skills / 工具扩展能力</text>
+  <text x="300" y="278" fill="#228b22" font-size="10.5">→ 第四章 · 概念 + 操作任务</text>
+  <rect x="560" y="238" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="570" y="258" fill="#333" font-size="11.5" font-weight="600">T6 · 控制 Token 账单</text>
+  <text x="570" y="278" fill="#228b22" font-size="10.5">→ 第七章 · 说服性 + 操作任务</text>
+  <!-- Row 2 → Row 3（仅 B、C 阶段） -->
+  <line x1="390" y1="288" x2="390" y2="306" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="660" y1="288" x2="660" y2="306" stroke="#bbb" stroke-width="1" stroke-dasharray="3,3"/>
+  <!-- Row 3：T4、T7 -->
+  <rect x="290" y="306" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="300" y="326" fill="#333" font-size="11.5" font-weight="600">T4 · 让长任务不失控</text>
+  <text x="300" y="346" fill="#228b22" font-size="10.5">→ 第五章 · 概念 + 说服性</text>
+  <rect x="560" y="306" width="200" height="50" rx="5" fill="#fafbfc" stroke="#ddd"/>
+  <text x="570" y="326" fill="#333" font-size="11.5" font-weight="600">T7 · 验证手册是否好用</text>
+  <text x="570" y="346" fill="#228b22" font-size="10.5">→ 第八章 · 可用性测试报告</text>
+  <!-- 图例 -->
+  <text x="10" y="380" fill="#555" font-size="10.5">图示约定：蓝色 = HTA 任务层次（根 / 阶段）；浅灰 = 用户任务节点；绿色文字 = 对应本手册章节与内容类型</text>
+</svg>
+</div>
+
+<p>从全景树可以看到一条清晰的<strong>读者推进路径</strong>：阶段 A 建立心智模型与跑通最小闭环（第 1–2 章）→ 阶段 B 掌握主流上手用法（第 3–5 章）→ 阶段 C 形成兜底保障（第 6–8 章）。每项用户任务内部还会继续拆到具体操作步骤，那才是各章节<strong>小节标题</strong>的来源，全景树只是把「任务 → 章节」的顶层连线可视化出来。<strong>8 个章节恰好对应 8 项用户任务，没有遗漏、也没有冗余。</strong></p>
+
+<h2>章节分工表</h2>
+
+<p>分工按每位成员的<strong>角色定位</strong>推导章节归属：项目负责人与信息架构成员承担手册骨架（封面/目录/HTA 树/附录/入门路径）；内容作者承担主体写作；内容编辑/测试承担进阶与长任务章节并兼交叉审校；用户研究员则承接从「读者视角反推」的常见问题与可用性测试。全书 4 类内容（概念 / 操作任务 / 故障排除 / 说服性）全覆盖，见下表「主要内容类型」列。</p>
+
+<table>
+<tr><th>成员</th><th>角色</th><th>主要章节</th><th>主要内容类型</th></tr>
+<tr><td>张子孺</td><td>项目负责人</td><td>00-index（封面）、appendix-a（模型对照表）、appendix-b（术语表）、章节串联</td><td>概念 + 说服性</td></tr>
+<tr><td>郭淳熙</td><td>信息架构</td><td>01-concept（什么是 Claude）、02-quickstart（5 分钟跑通第一次调用）</td><td>概念 + 操作任务 + 说服性</td></tr>
+<tr><td>冯鑫</td><td>内容编辑 / 测试</td><td>04-advanced（进阶能力）、05-harness（Agent Harness）</td><td>概念 + 操作任务</td></tr>
+<tr><td>金茂月</td><td>内容作者</td><td>03-claude-code（Claude Code 基础使用）、07-cost-saving（省钱与成本控制）</td><td>操作任务 + 说服性</td></tr>
+<tr><td>张明语</td><td>用户研究员</td><td>06-troubleshooting（常见问题）、08-usability-test（可用性测试报告）</td><td>故障排除 + 测试报告</td></tr>
+</table>
+
+
+<h2>写作风格指南（Style Guide）</h2>
+
+<div class="tips">
+<strong>给所有组员的“共同纪律”</strong>（本手册所有文档必须遵守）:
+<ol style="margin-bottom:0;margin-top:6px">
+<li><strong>第二人称</strong>：全文用“你”，不混用“您/用户/操作人员”</li>
+<li><strong>任务标题动词开头</strong>：“安装 Claude Code CLI” ✅ | “Claude Code 的安装” ❌</li>
+<li><strong>术语一致</strong>：一个概念全文一个译名（详见<a href="appendix-b-glossary.html">附录 B 术语表</a>）</li>
+<li><strong>提示框四分色</strong>：note（蓝·上下文）/ tips（绿·技巧）/ warning（黄·易错）/ danger（红·危险）</li>
+<li><strong>代码用 <code>&lt;code&gt;</code> 或 <code>&lt;pre&gt;</code> 包裹</strong>，不要在正文里混排裸代码</li>
+<li><strong>中文标点</strong>：中文语境内用全角标点（, 。 ; : ( ) " " ? !），英文代码、URL、文件路径内保留半角</li>
+<li><strong>每章末尾</strong>：放“读完本章你应该能做”的 ✅ 自测清单</li>
+</ol>
+</div>
+
+<h2>排版约定</h2>
+
+<ul>
+<li><code>行内代码</code> —— 命令、文件名、配置项、函数名</li>
+<li><div class="note" style="margin:6px 0"><strong>蓝色提示框</strong> —— 需要注意但不紧急的信息，一般是上下文补充</div></li>
+<li><div class="tips" style="margin:6px 0"><strong>绿色提示框</strong> —— 小技巧、最佳实践、正向引导</div></li>
+<li><div class="warning" style="margin:6px 0"><strong>黄色警告框</strong> —— 高频易错点，跳过会卡住</div></li>
+<li><div class="danger" style="margin:6px 0"><strong>红色危险框</strong> —— 涉及数据安全、不可逆操作，务必阅读</div></li>
+</ul>
+
+<div class="pager">
+<span class="empty">占位</span>
+<a href="01-concept.html">下一章：什么是 Claude →</a>
+</div>
+
+</div>
+</body>
+</html>

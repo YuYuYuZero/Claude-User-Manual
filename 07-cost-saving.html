@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第七章 · 省钱与成本控制 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+h4{color:#444;margin:20px 0 10px;font-size:15.5px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.danger{background:#fdecea;padding:14px 18px;border-left:4px solid #e74c3c;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+.compare-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0}
+.compare-bad,.compare-good{padding:14px 16px;border-radius:6px;border:1px solid}
+.compare-bad{background:#fff6f6;border-color:#fad4d4}
+.compare-good{background:#f4fbf6;border-color:#c8e6d0}
+.compare-bad .label,.compare-good .label{font-weight:600;margin-bottom:8px;font-size:13px;letter-spacing:0.5px}
+.compare-bad .label{color:#c53a53}
+.compare-good .label{color:#228b22}
+.tip-card{border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:14px 0;background:#fafbfc}
+.tip-card .num{display:inline-block;width:28px;height:28px;background:#007bff;color:#fff;text-align:center;line-height:28px;border-radius:50%;font-weight:600;margin-right:10px;font-size:13px}
+.tip-card h4{display:inline-block;margin:0;vertical-align:middle}
+.h4-text{font-weight:600;color:#444;margin:20px 0 10px;font-size:16px;line-height:1.5}
+.tip-card .h4-text{display:inline-block;margin:0;vertical-align:middle}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.compare-wrap{grid-template-columns:1fr}.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html" class="current">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第七章 · 省钱与成本控制</div>
+
+<h1>第七章 · 省钱与成本控制</h1>
+
+<p>Claude Opus 4.7 的定价是<strong>输入 $5/MTok，输出 $25/MTok</strong>。一个不小心，一下午就能烧掉几十刀。本章 8 个具体技巧能帮你省下 80% 的费用。</p>
+
+<h2>7.1 三大原则：别走弯路</h2>
+
+<h3>原则一：不是所有活都需要 Opus</h3>
+
+<p>日常 90% 的任务，Sonnet 4.6 够用了——它的价格是 Opus 的 <strong>1/5</strong>。</p>
+
+<pre>/model sonnet            # 切到 Sonnet
+/model opus              # 遇到难题再临时切回 Opus,完事再切回去</pre>
+
+<p>在 <code>~/.claude/settings.json</code> 里设置默认模型：</p>
+
+<pre>{
+  "model": "claude-sonnet-4-6"
+}</pre>
+
+<h3>原则二：effort 不是越高越好</h3>
+
+<p><code>xhigh</code> 和 <code>max</code> 贵得离谱——它们让模型“反复想反复验证”，每个动作都消耗大量 token。</p>
+
+<table>
+<tr><th>任务复杂度</th><th>推荐 effort</th></tr>
+<tr><td>简单改动（改一行字、加注释）</td><td><code>low</code></td></tr>
+<tr><td>日常开发</td><td><code>medium</code></td></tr>
+<tr><td>不行再升</td><td><code>high</code></td></tr>
+</table>
+
+<h3>原则三：上下文不是越大越好</h3>
+
+<p>每条消息都会带<strong>完整的上下文</strong>重新计算。100k tokens 的上下文，每问一个问题就是 <strong>$0.5</strong> 的输入成本。</p>
+
+<p>所以 <code>/clear</code> 和 <code>/compact</code> 要勤快用——这不只是“防止变傻”，更是<strong>直接省钱</strong>。</p>
+
+<h2>7.2 8 个具体省钱技巧</h2>
+
+<div class="tip-card">
+<span class="num">1</span><p class="h4-text">用 <code>@文件</code> 引用，别让 Claude 搜索</p>
+
+<p style="margin-top:10px">需要 Claude 看某个具体文件时，直接用 <code>@路径</code> 指明，比让它自己找省得多：</p>
+
+<div class="compare-wrap" style="margin-top:14px">
+<div class="compare-bad">
+<div class="label">❌ 烧 token 的写法</div>
+<code>&gt; 看看 auth 模块怎么实现的</code>
+<p style="margin-top:8px;margin-bottom:0;font-size:13px;color:#777">→ Claude 会跑几次 <code>Glob</code> / <code>Grep</code> 找文件，可能读 5–8 个无关文件才定位到目标，token 哗哗烧。</p>
+</div>
+<div class="compare-good">
+<div class="label">✅ 省 token 的写法</div>
+<code>&gt; 看看 @src/auth/login.ts 怎么实现的</code>
+<p style="margin-top:8px;margin-bottom:0;font-size:13px;color:#777">→ 直接给路径，Claude 一步到位读到目标文件，零搜索成本。</p>
+</div>
+</div>
+
+</div>
+
+<div class="tip-card">
+<span class="num">2</span><p class="h4-text">CLAUDE.md 保持简洁（200 行以内）</p>
+<p style="margin-top:10px">每条消息都加载它。200 行 CLAUDE.md，按每行 20 tokens 算，<strong>一次对话就是 4000 tokens 的固定开销</strong>。控制好长度，把详细文档放到 <code>@docs/</code> 里按需引用。</p>
+</div>
+
+<div class="tip-card">
+<span class="num">3</span><p class="h4-text">关掉不用的 MCP 服务器</p>
+<p style="margin-top:10px">每个连上的 MCP 服务器都会在系统 prompt 里注入说明文字、占用 token。用不到的就断开：</p>
+<pre>/mcp remove &lt;id&gt;</pre>
+</div>
+
+<div class="tip-card">
+<span class="num">4</span><p class="h4-text">用 subagent 处理重活</p>
+<p style="margin-top:10px">长任务里需要大量读代码、找 bug 的部分，用 subagent 处理：</p>
+<pre>/agents</pre>
+<p>subagent 在<strong>独立上下文</strong>里跑，结果只带“精华”回来，不污染主会话——既省 token 又防止主会话变长后变傻。</p>
+</div>
+
+<div class="tip-card">
+<span class="num">5</span><p class="h4-text">长会话及时压缩</p>
+<p style="margin-top:10px">看到上下文 &gt; 80%，立刻 <code>/compact</code>。<strong>不要等</strong>系统提示 "context full" 才动手——那时已经多烧了几刀。</p>
+<p>带 <code>focus</code> 参数的 compact 比裸 compact 好用得多：</p>
+<pre>/compact 保留所有关于认证错误的细节
+/compact retain the database schema and migration history</pre>
+</div>
+
+<div class="tip-card">
+<span class="num">6</span><p class="h4-text">用 <code>--max-budget-usd</code> 设上限</p>
+<p style="margin-top:10px">让 Claude 自动跑长任务时，启动时带上预算：</p>
+<pre>claude --max-budget-usd 5.00 "重构这个模块"</pre>
+<p>用满 $5 自动停。再也不会出现“睡前让它跑、醒来发现烧了 $80”的事故。</p>
+</div>
+
+<div class="tip-card">
+<span class="num">7</span><p class="h4-text">把重复工作封装成 <code>/命令</code></p>
+<p style="margin-top:10px">一件事你做了 3 次，就把它变成 <code>/命令</code>（见第四章 §4.8）。</p>
+<p>每次用命令的 prompt 是<strong>固定的</strong>，不会因为你每次表达不同而浪费 token。命令还可以指定 <code>model: claude-sonnet-4-6</code> 强制用便宜模型。</p>
+</div>
+
+<div class="tip-card">
+<span class="num">8</span><p class="h4-text"><code>/cost</code> 常看，长会话每隔一会儿瞄一眼</p>
+<pre>/cost</pre>
+<p>会显示当前会话的 token 用量和费用：</p>
+<pre>Session cost:
+  Input tokens:  145,230
+  Output tokens: 18,542
+  Total cost:    $0.79
+
+Plan usage today: $4.23 / $50.00</pre>
+<p>知道自己花了多少，才有底——这是养成“成本意识”的第一步。</p>
+</div>
+
+<h2>7.3 实际花费参考</h2>
+
+<p>下表是真实使用的经验值，帮你预估自己一个月可能花多少钱：</p>
+
+<table>
+<tr><th>场景</th><th>模型 + effort</th><th>每小时大约成本</th></tr>
+<tr><td>日常问答、代码补全</td><td>Sonnet + low</td><td>$0.50 – $2</td></tr>
+<tr><td>一般开发、修 bug</td><td>Sonnet + medium</td><td>$2 – $8</td></tr>
+<tr><td>复杂重构、大功能</td><td>Opus + high</td><td>$10 – $30</td></tr>
+<tr><td>长程 agent（连续跑几小时）</td><td>Opus + xhigh</td><td>$30 – $100</td></tr>
+</table>
+
+<div class="note">
+<strong>套餐参考</strong>：一个 Max $100/月 的计划大概对应每月 $500–$800 的 API 额度用量，够大部分重度开发者用。新手建议先用 Pro 套餐或 API 按量付费几周，知道自己用量水平再决定要不要上 Max。
+</div>
+
+<h2>7.4 一份“省钱清单”：每天开工前检查</h2>
+
+<div class="tips">
+养成习惯，每天开第一个 Claude Code 会话之前问自己：
+<ol style="margin-bottom:0;margin-top:6px">
+<li>今天的活复杂吗？如果是日常开发，<strong>切到 sonnet</strong></li>
+<li>会跑多久？如果可能跑 1 小时以上，<strong>带 <code>--max-budget-usd</code> 上限</strong></li>
+<li>有重复工作吗？如果是第 3 次了，<strong>封装成 <code>/命令</code></strong></li>
+<li>项目的 CLAUDE.md 还在 200 行以内吗？<strong>定期 review，删冗余</strong></li>
+<li>会用 @文件路径，还是会让 Claude 自己 grep？<strong>能 @ 就 @</strong></li>
+</ol>
+</div>
+
+<h2>7.5 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 解释为什么“上下文越大越花钱”，并能用 <code>/compact</code> 主动控制</li>
+<li>✅ 知道自己日常 90% 的活该用什么模型 + effort 组合</li>
+<li>✅ 启动 Claude Code 时会用 <code>--max-budget-usd</code> 设上限</li>
+<li>✅ 至少封装过一个项目级 <code>/命令</code> 用来减少重复输入</li>
+<li>✅ 会用 <code>/cost</code> 实时监控，知道自己每小时大概花多少</li>
+</ul>
+</div>
+
+
+<h2>7.6 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="03-claude-code.html"><span class="ch-name">→ 第三章 · Claude Code</span></a><br><span style="color:#666;font-size:13px"><code>@文件</code> / <code>/compact</code> / <code>/cost</code> 三个省钱工具的完整用法</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力 §4.8</span></a><br><span style="color:#666;font-size:13px">自定义 / 命令可指定 <code>model</code> 强制用便宜模型</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="06-troubleshooting.html"><span class="ch-name">→ 第六章 · 6.4 性能类</span></a><br><span style="color:#666;font-size:13px">上下文过长导致的成本问题与解决</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="appendix-a-models.html"><span class="ch-name">→ 附录 A · 模型对照表</span></a><br><span style="color:#666;font-size:13px">三档模型的输入输出价格对照</span></div></div>
+</div>
+
+<div class="pager">
+<a href="06-troubleshooting.html">← 第六章：常见问题</a>
+<a href="08-usability-test.html">下一章：可用性测试报告 →</a>
+</div>
+
+</div>
+</body>
+</html>

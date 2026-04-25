@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第二章 · 快速入门 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+h4{color:#444;margin:20px 0 10px;font-size:15.5px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+.tabs{margin:24px 0;border:1px solid #e6e8eb;border-radius:8px;overflow:hidden}
+.tab-nav{display:flex;gap:0;border-bottom:1px solid #e6e8eb;background:#f7f8fa;flex-wrap:wrap}
+.tab-nav button{padding:12px 18px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-size:14px;font-family:inherit}
+.tab-nav button.active{border-bottom-color:#007bff;color:#007bff;font-weight:600;background:#fff}
+.tab-content{display:none;padding:20px}
+.tab-content.active{display:block}
+.steps{margin:20px 0}
+.step{margin-bottom:22px;padding-left:44px;position:relative}
+.step::before{content:attr(data-step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:#007bff;color:#fff;text-align:center;line-height:30px;font-weight:600;font-size:14px}
+.step-title{font-weight:600;margin-bottom:8px;font-size:16px}
+.output-block{background:#f4fbf6;color:#222;border-left:4px solid #28a745}
+.output-block code{color:inherit}
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels a{text-decoration:none}
+.help-channels a:hover .ch-name{text-decoration:underline}
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html" class="current">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第二章 · 快速入门</div>
+
+<h1>第二章 · 快速入门：5 分钟完成第一次 API 调用</h1>
+
+<div class="note">
+<strong>本章目标场景</strong>：你已有一个开发者账户，想用 Claude API 让它<strong>回答一个问题</strong>——“帮我列出搜索可再生能源最新进展的关键词”。跑通这 5 分钟的 Hello World 后，你就掌握了所有后续调用的基本套路。<br><br>
+<strong>前置条件</strong>：
+<ol style="margin-bottom:0;margin-top:6px">
+<li>一个开发者控制台账户</li>
+<li>一个有效的 API 密钥</li>
+<li>可访问 API 服务的网络环境</li>
+</ol>
+</div>
+
+<div class="tips">
+<strong>📌 如果你从没用过命令行</strong>：本章所有以 <code>$ 开头或看起来像代码的命令</code>，都是在 <strong>macOS 自带的【终端】App</strong> 里运行的。打开它的方法：<code>Cmd+空格</code> 搜 "Terminal" 回车。Windows 用户请用 PowerShell 或 WSL;Linux 用户自己的 terminal 即可。
+</div>
+
+<h2>2.1 选一种语言开始</h2>
+
+<p>本手册提供 5 种语言的首次调用方案，点击标签切换：</p>
+
+<div class="tabs">
+<div class="tab-nav">
+<button class="active" onclick="switchTab(event,'curl')">cURL</button>
+<button onclick="switchTab(event,'cli')">CLI</button>
+<button onclick="switchTab(event,'py')">Python</button>
+<button onclick="switchTab(event,'ts')">TypeScript</button>
+<button onclick="switchTab(event,'java')">Java</button>
+</div>
+
+<div id="curl" class="tab-content active">
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">设置 API 密钥（环境变量）</div>
+<pre>export ANTHROPIC_API_KEY='your-api-key-here'</pre>
+<p><strong>持久化</strong>：把这一行追加到 <code>~/.zshrc</code> 或 <code>~/.bashrc</code>，然后执行 <code>source ~/.zshrc</code> 生效。</p>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">发送第一个请求</div>
+<pre>curl https://api.anthropic.com/v1/messages \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -d '{
+    "model": "claude-opus-4-7",
+    "max_tokens": 1000,
+    "messages": [
+      {"role": "user",
+       "content": "What should I search for to find the latest developments in renewable energy?"}
+    ]
+  }'</pre>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">验证返回结果（完成标志）</div>
+<p>终端应打印包含以下字段的 JSON:</p>
+<pre class="output-block">{
+  "id": "msg_01HCDu5LRGeP2o7s2xGmxyx8",
+  "type": "message",
+  "role": "assistant",
+  "content": [{ "type": "text", "text": "Here are some effective search strategies..." }],
+  "model": "claude-opus-4-7",
+  "stop_reason": "end_turn",
+  "usage": { "input_tokens": 21, "output_tokens": 305 }
+}</pre>
+<p><strong>看到什么算成功？</strong> <code>stop_reason</code> 为 <code>"end_turn"</code> 且 <code>content</code> 里有文本即可。若看到 <code>"error"</code> 字段，参见第六章“API 调用类”故障排查。</p>
+<div class="tips" style="margin-top:10px">
+<strong>📖 JSON 里的字段各是什么意思：</strong>
+<ul style="margin-top:6px;margin-bottom:0">
+<li><code>content[0].text</code> — <strong>这是“答案”本身</strong>，你要的内容在这里</li>
+<li><code>stop_reason</code> — 模型为什么停下来（<code>end_turn</code> 正常 / <code>max_tokens</code> 被截断 / <code>tool_use</code> 要调工具）</li>
+<li><code>usage</code> — <strong>这是 token 账单</strong>，<code>input_tokens</code> × 输入单价 + <code>output_tokens</code> × 输出单价 = 本次费用（定价见<a href="appendix-a-models.html">附录 A</a>）</li>
+<li><code>id</code> — 本次请求的唯一标识，报错时提交 ticket 附上这个</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="cli" class="tab-content">
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">设置 API 密钥</div>
+<pre>export ANTHROPIC_API_KEY='your-api-key-here'</pre>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">用 Homebrew 装 CLI</div>
+<pre>brew install anthropics/tap/ant</pre>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">发第一个请求</div>
+<pre>ant messages create \
+  --model claude-opus-4-7 \
+  --max-tokens 1000 \
+  --message '{
+    role: user,
+    content: "What should I search for to find the latest developments in renewable energy?"
+  }'</pre>
+</div>
+<div class="step" data-step="4">
+<div class="step-title">验证</div>
+<p>返回格式与 cURL 一致，包含 <code>id</code>/<code>content</code>/<code>usage</code>。</p>
+</div>
+</div>
+</div>
+
+<div id="py" class="tab-content">
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">设置 API 密钥</div>
+<pre>export ANTHROPIC_API_KEY='your-api-key-here'</pre>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">安装 SDK（需要 Python &ge; 3.9）</div>
+<pre>pip install anthropic</pre>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">创建代码文件 <code>quickstart.py</code></div>
+<pre>import anthropic
+
+client = anthropic.Anthropic()
+
+message = client.messages.create(
+    model="claude-opus-4-7",
+    max_tokens=1000,
+    messages=[
+        {
+            "role": "user",
+            "content": "What should I search for to find the latest developments in renewable energy?",
+        }
+    ],
+)
+print(message.content)</pre>
+</div>
+<div class="step" data-step="4">
+<div class="step-title">运行 & 验证</div>
+<pre>python quickstart.py</pre>
+<p>应输出一个 <code>TextBlock</code> 列表，含具体建议文本。若 <code>import anthropic</code> 报错，检查是否装到了正确的 Python 环境。</p>
+</div>
+</div>
+</div>
+
+<div id="ts" class="tab-content">
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">设置 API 密钥</div>
+<pre>export ANTHROPIC_API_KEY='your-api-key-here'</pre>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">安装 SDK（需要 Node.js &ge; 20）</div>
+<pre>npm install @anthropic-ai/sdk</pre>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">创建代码文件 <code>quickstart.ts</code></div>
+<pre>import Anthropic from "@anthropic-ai/sdk";
+
+async function main() {
+  const anthropic = new Anthropic();
+  const msg = await anthropic.messages.create({
+    model: "claude-opus-4-7",
+    max_tokens: 1000,
+    messages: [
+      { role: "user",
+        content: "What should I search for to find the latest developments in renewable energy?" }
+    ]
+  });
+  console.log(msg);
+}
+main().catch(console.error);</pre>
+</div>
+<div class="step" data-step="4">
+<div class="step-title">运行</div>
+<pre>npx tsx quickstart.ts</pre>
+</div>
+</div>
+</div>
+
+<div id="java" class="tab-content">
+<div class="steps">
+<div class="step" data-step="1">
+<div class="step-title">设置 API 密钥</div>
+<pre>export ANTHROPIC_API_KEY='your-api-key-here'</pre>
+</div>
+<div class="step" data-step="2">
+<div class="step-title">添加依赖</div>
+<p><strong>Gradle:</strong></p>
+<pre>implementation("com.anthropic:anthropic-java:2.20.0")</pre>
+<p><strong>Maven:</strong></p>
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;com.anthropic&lt;/groupId&gt;
+  &lt;artifactId&gt;anthropic-java&lt;/artifactId&gt;
+  &lt;version&gt;2.20.0&lt;/version&gt;
+&lt;/dependency&gt;</pre>
+</div>
+<div class="step" data-step="3">
+<div class="step-title">创建代码文件 <code>QuickStart.java</code></div>
+<pre>import com.anthropic.client.AnthropicClient;
+import com.anthropic.client.okhttp.AnthropicOkHttpClient;
+import com.anthropic.models.messages.Message;
+import com.anthropic.models.messages.MessageCreateParams;
+import com.anthropic.models.messages.Model;
+
+public class QuickStart {
+  public static void main(String[] args) {
+    AnthropicClient client = AnthropicOkHttpClient.fromEnv();
+    MessageCreateParams params = MessageCreateParams.builder()
+      .model(Model.CLAUDE_OPUS_4_7)
+      .maxTokens(1000L)
+      .addUserMessage(
+        "What should I search for to find the latest developments in renewable energy?"
+      ).build();
+    Message message = client.messages().create(params);
+    System.out.println(message.content());
+  }
+}</pre>
+</div>
+<div class="step" data-step="4">
+<div class="step-title">编译运行</div>
+<pre>javac QuickStart.java
+java QuickStart</pre>
+</div>
+</div>
+</div>
+</div>
+
+<h2>2.2 理解你刚刚做了什么</h2>
+
+<p>跑通 Hello World 不代表你懂了。下面这三件事最好扫一眼——后续所有调用都绕不开：</p>
+
+<h3>2.2.1 Messages API 是无状态的</h3>
+
+<p>API 本身<strong>不记得</strong>你之前说过什么。每次请求你都要把<strong>完整的对话历史</strong>传回：</p>
+
+<pre>messages=[
+    {"role": "user",      "content": "Hello, Claude"},
+    {"role": "assistant", "content": "Hello!"},
+    {"role": "user",      "content": "Can you describe LLMs to me?"}
+]</pre>
+
+<h3>2.2.2 把话塞进 Claude 嘴里（预填充）</h3>
+
+<p>在 messages 最后一位放一个 <code>assistant</code> 消息，它就会接着这句往下说。适合强制格式：</p>
+
+<pre>messages=[
+    {"role": "user",      "content": "What is latin for Ant? (A) Apoidea, (B) Rhopalocera, (C) Formicidae"},
+    {"role": "assistant", "content": "The answer is ("}
+]</pre>
+
+<div class="warning">
+<strong>边界警告</strong>：<strong>Claude Opus 4.7 / 4.6 / Sonnet 4.6 不支持预填充</strong>，会返回 400 错误。如果你要用这三个模型，请改用“结构化输出”（见第四章）或 system prompt 指令。
+</div>
+
+<h3>2.2.3 视觉：读图、读 PDF</h3>
+
+<p>Claude 可以直接读图像。支持 <code>base64</code>、<code>url</code> 或 <code>file</code> 三种来源，媒体类型支持 <code>image/jpeg</code>、<code>image/png</code>、<code>image/gif</code>、<code>image/webp</code>。</p>
+
+<p>最简示例（URL 来源）:</p>
+
+<pre>curl https://api.anthropic.com/v1/messages \
+  -H "x-api-key: $ANTHROPIC_API_KEY" \
+  -H "anthropic-version: 2023-06-01" \
+  -H "content-type: application/json" \
+  -d '{
+    "model": "claude-opus-4-7",
+    "max_tokens": 1024,
+    "messages": [
+      {"role": "user", "content": [
+        {"type": "image", "source": {
+          "type": "url",
+          "url": "https://example.com/image.jpg"
+        }},
+        {"type": "text", "text": "What is in the above image?"}
+      ]}
+    ]
+  }'</pre>
+
+<h2>2.3 官方 SDK 一览</h2>
+
+<p>下面是所有官方 SDK 的最低运行时要求。选你熟悉的语言即可：</p>
+
+<table>
+<tr><th>语言</th><th>最低版本</th><th>安装命令</th></tr>
+<tr><td>Python</td><td>3.9+</td><td><code>pip install anthropic</code></td></tr>
+<tr><td>TypeScript</td><td>4.9+ / Node.js 20+</td><td><code>npm install @anthropic-ai/sdk</code></td></tr>
+<tr><td>Java</td><td>8+</td><td>Gradle/Maven 引入 <code>com.anthropic:anthropic-java</code></td></tr>
+<tr><td>Go</td><td>1.23+</td><td><code>go get github.com/anthropics/anthropic-sdk-go</code></td></tr>
+<tr><td>Ruby</td><td>3.2.0+</td><td><code>bundler add anthropic</code></td></tr>
+<tr><td>C#</td><td>.NET Standard 2.0</td><td><code>dotnet add package Anthropic</code></td></tr>
+<tr><td>PHP</td><td>8.1.0+</td><td><code>composer require anthropic-ai/sdk</code></td></tr>
+<tr><td>CLI</td><td>—</td><td><code>brew install anthropics/tap/ant</code></td></tr>
+</table>
+
+<h2>2.4 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 在终端里跑通一次 Claude API 调用，看到返回 JSON</li>
+<li>✅ 识别 JSON 里的 <code>content</code>、<code>stop_reason</code>、<code>usage</code> 三个关键字段</li>
+<li>✅ 知道“每次请求必须传完整对话历史”这一条核心约束</li>
+<li>✅ 知道 Claude Opus 4.7 / 4.6 / Sonnet 4.6 上预填充不可用</li>
+</ul>
+</div>
+
+
+<h2>2.5 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="03-claude-code.html"><span class="ch-name">→ 第三章 · Claude Code</span></a><br><span style="color:#666;font-size:13px">想要“成品工具”而不是自己搭应用，从这章开始</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力</span></a><br><span style="color:#666;font-size:13px">进一步了解工具使用、扩展思考、提示缓存</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="06-troubleshooting.html"><span class="ch-name">→ 第六章 · 常见问题</span></a><br><span style="color:#666;font-size:13px">跑请求报错了？按症状查对应条目</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="appendix-a-models.html"><span class="ch-name">→ 附录 A · 模型对照表</span></a><br><span style="color:#666;font-size:13px">选模型时查定价和能力矩阵</span></div></div>
+</div>
+
+<div class="pager">
+<a href="01-concept.html">← 第一章：概念</a>
+<a href="03-claude-code.html">下一章：Claude Code →</a>
+</div>
+
+</div>
+
+<script>
+function switchTab(ev, tabId) {
+  var container = ev.target.closest('.tabs');
+  container.querySelectorAll('.tab-content').forEach(function(c){ c.classList.remove('active'); });
+  container.querySelectorAll('.tab-nav button').forEach(function(b){ b.classList.remove('active'); });
+  container.querySelector('#'+tabId).classList.add('active');
+  ev.target.classList.add('active');
+}
+</script>
+</body>
+</html>

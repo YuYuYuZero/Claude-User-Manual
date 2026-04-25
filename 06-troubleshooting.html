@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>第六章 · 常见问题 | Claude 使用手册</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;line-height:1.7;color:#222;background:#f7f8fa;padding:20px}
+.container{max-width:1180px;margin:0 auto;background:#fff;padding:48px;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.navbar{position:sticky;top:0;background:#fff;border-bottom:1px solid #e6e8eb;padding:12px 0;margin:-48px -48px 32px;padding-left:48px;padding-right:48px;z-index:10;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.navbar .brand{font-weight:700;font-size:15px;color:#111;margin-right:18px}
+.navbar a{color:#555;text-decoration:none;padding:6px 10px;border-radius:4px;font-size:13.5px;white-space:nowrap}
+.navbar a:hover{background:#f1f3f5;color:#007bff}
+.navbar a.current{background:#007bff;color:#fff}
+.breadcrumb{color:#999;font-size:13px;margin-bottom:14px}
+.breadcrumb a{color:#007bff;text-decoration:none}
+h1{color:#111;margin-bottom:20px;border-bottom:2px solid #e6e8eb;padding-bottom:14px;font-size:26px}
+h2{color:#222;margin:40px 0 18px;border-left:4px solid #007bff;padding-left:16px;font-size:21px}
+h3{color:#333;margin:26px 0 12px;font-size:17px}
+p{margin-bottom:14px}
+ul,ol{margin-left:26px;margin-bottom:18px}
+li{margin-bottom:8px}
+a{color:#007bff;text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:#f1f3f5;padding:2px 6px;border-radius:4px;color:#c53a53;font-family:Monaco,Consolas,monospace;font-size:13.5px}
+pre{background:#1e1e1e;color:#e8e8e8;padding:16px;border-radius:8px;overflow-x:auto;margin-bottom:18px;font-family:Monaco,Consolas,monospace;font-size:13px;line-height:1.55}
+pre code{background:none;padding:0;color:inherit;font-size:13px}
+table{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14.5px}
+th,td{border:1px solid #e6e8eb;padding:10px 12px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600}
+.highlight{color:red;font-style:italic}
+.note{background:#e7f5ff;padding:14px 18px;border-left:4px solid #007bff;margin:18px 0;border-radius:4px}
+.warning{background:#fff3cd;padding:14px 18px;border-left:4px solid #ffc107;margin:18px 0;border-radius:4px}
+.tips{background:#e8f8f0;padding:14px 18px;border-left:4px solid #28a745;margin:18px 0;border-radius:4px}
+
+.troubleshoot{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:16px 22px;margin:18px 0;position:relative}
+.troubleshoot .symptom{font-weight:700;color:#c53a53;margin-bottom:10px;font-size:15.5px;padding-right:90px}
+.troubleshoot .symptom::before{content:"⚠️";margin-right:6px;font-size:15px}
+.troubleshoot ul{margin-bottom:6px}
+.troubleshoot p{margin-bottom:8px}
+.troubleshoot .label{display:inline-block;min-width:90px;font-weight:600;color:#555}
+.troubleshoot .cat-badge{position:absolute;top:16px;right:18px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:10px;background:#e7f5ff;color:#007bff;letter-spacing:0.5px}
+.troubleshoot .cat-install{background:#fff3cd;color:#a88600}
+.troubleshoot .cat-api{background:#e7f5ff;color:#007bff}
+.troubleshoot .cat-code{background:#faf5ff;color:#6b2fb3}
+.troubleshoot .cat-perf{background:#fdf1e8;color:#d97757}
+.troubleshoot .cat-deprec{background:#f1f3f5;color:#555}
+
+.prevent-box{background:#e8f8f0;border-left:3px solid #28a745;padding:8px 14px;margin-top:12px;border-radius:4px;font-size:13.5px}
+.prevent-box .label{color:#228b22;min-width:90px;display:inline-block;font-weight:600}
+
+.quick-index{background:#f7f8fa;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0 28px}
+.quick-index > h3{margin-top:0;border:none;padding:0;font-size:16px;color:#111}
+.quick-index .group-title{margin-top:14px;margin-bottom:6px;font-weight:600;font-size:13.5px;color:#007bff;letter-spacing:0.3px}
+.quick-index .group-title:first-of-type{margin-top:10px}
+.quick-index ul{margin-left:20px;margin-bottom:0;margin-top:0}
+.quick-index li{margin-bottom:4px;font-size:13.5px}
+
+.help-channels{background:#fafbfc;border:1px solid #e6e8eb;border-radius:8px;padding:18px 22px;margin:18px 0}
+.help-channels .channel{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;font-size:14px}
+.help-channels .channel:last-child{margin-bottom:0}
+.help-channels .ch-icon{width:26px;flex-shrink:0;font-size:16px;text-align:center}
+.help-channels .ch-name{font-weight:600;color:#007bff;margin-right:6px}
+.help-channels .ch-url{font-family:Monaco,Consolas,monospace;font-size:12.5px;background:#f1f3f5;padding:1px 6px;border-radius:3px;color:#555}
+
+.pager{display:flex;justify-content:space-between;margin-top:60px;padding-top:20px;border-top:1px solid #e6e8eb;font-size:14px}
+.pager a{display:inline-block;padding:10px 16px;border:1px solid #e6e8eb;border-radius:6px;color:#007bff}
+.pager a:hover{background:#f7f8fa;text-decoration:none}
+@media (max-width:720px){.container{padding:24px}.navbar{margin:-24px -24px 24px;padding-left:24px;padding-right:24px}.troubleshoot .symptom{padding-right:0}.troubleshoot .cat-badge{position:static;display:inline-block;margin-bottom:8px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="navbar">
+<span class="brand">📘 Claude 使用手册</span>
+<a href="00-index.html">封面</a>
+<a href="01-concept.html">1. 概念</a>
+<a href="02-quickstart.html">2. 快速入门</a>
+<a href="03-claude-code.html">3. Claude Code</a>
+<a href="04-advanced.html">4. 进阶</a>
+<a href="05-harness.html">5. Harness</a>
+<a href="06-troubleshooting.html" class="current">6. 常见问题</a>
+<a href="07-cost-saving.html">7. 省钱</a>
+<a href="08-usability-test.html">8. 可用性测试</a>
+<a href="appendix-a-models.html">附录 A</a>
+<a href="appendix-b-glossary.html">附录 B</a>
+</nav>
+
+<div class="breadcrumb"><a href="00-index.html">首页</a> / 第六章 · 常见问题</div>
+
+<h1>第六章 · 常见问题</h1>
+
+<p>下面按“症状”组织——记得当时屏幕上出现了什么，就能直接定位对应的原因和方案。每个条目都给出可能原因、解决方案、预防措施三段，右上角的彩色标签显示所属小类。</p>
+
+<div class="quick-index">
+<h3>快速索引（按症状找）</h3>
+
+<div class="group-title">6.1 安装与配置类（3 条）</div>
+<ul>
+<li><a href="#s6-1-1">6.1.1 · npm install 报 EACCES 权限错误</a></li>
+<li><a href="#s6-1-2">6.1.2 · 设了环境变量，但 VS Code 扩展不生效</a></li>
+<li><a href="#s6-1-3">6.1.3 · 配好代理后，请求一直返回 401</a></li>
+</ul>
+
+<div class="group-title">6.2 API 调用类（8 条）</div>
+<ul>
+<li><a href="#s6-2-1">6.2.1 · 请求返回 <code>max_tokens must be less than...</code></a></li>
+<li><a href="#s6-2-2">6.2.2 · 用 Claude Opus 4.7 调手动扩展思考返回 400</a></li>
+<li><a href="#s6-2-3">6.2.3 · 用 Opus 4.7 / Sonnet 4.6 预填充 assistant 消息返回 400</a></li>
+<li><a href="#s6-2-4">6.2.4 · 提示缓存第二次请求没命中，成本还是很高</a></li>
+<li><a href="#s6-2-5">6.2.5 · 报错 "You must include the thinking block"</a></li>
+<li><a href="#s6-2-6">6.2.6 · 工具调用返回 <code>tool_use</code> 但我不知道下一步传什么</a></li>
+<li><a href="#s6-2-7">6.2.7 · 同一请求 token 总数正常，但响应被截断</a></li>
+<li><a href="#s6-2-8">6.2.8 · 返回 <code>overloaded_error</code></a></li>
+</ul>
+
+<div class="group-title">6.3 Claude Code 使用类（5 条）</div>
+<ul>
+<li><a href="#s6-3-1">6.3.1 · Skill 装了但 Claude 好像没调用它</a></li>
+<li><a href="#s6-3-2">6.3.2 · Claude 总是拒绝做某事</a></li>
+<li><a href="#s6-3-3">6.3.3 · 登录过期、claude 突然要重新登录</a></li>
+<li><a href="#s6-3-4">6.3.4 · MCP 服务器连接不上</a></li>
+<li><a href="#s6-3-5">6.3.5 · 自定义 / 命令不生效</a></li>
+</ul>
+
+<div class="group-title">6.4 性能类（3 条）</div>
+<ul>
+<li><a href="#s6-4-1">6.4.1 · 聊久了“答非所问”，忘了一开始设定</a></li>
+<li><a href="#s6-4-2">6.4.2 · Claude Code 执行某个操作卡住不返回</a></li>
+<li><a href="#s6-4-3">6.4.3 · 长会话越聊越慢</a></li>
+</ul>
+
+<div class="group-title">6.5 模型弃用与迁移类（1 条）</div>
+<ul>
+<li><a href="#s6-5-1">6.5.1 · 调用旧模型 ID 收到弃用警告</a></li>
+</ul>
+</div>
+
+<h2>6.1 安装与配置类</h2>
+
+<div class="troubleshoot" id="s6-1-1">
+<span class="cat-badge cat-install">安装</span>
+<div class="symptom">6.1.1 · 症状：<code>npm install -g @anthropic-ai/claude-code</code> 报 EACCES 权限错误</div>
+<p><span class="label">可能原因：</span>用了系统自带 Node，全局目录（如 <code>/usr/local/lib/node_modules</code>）需要 root 权限写入。</p>
+<p><span class="label">解决方案：</span><strong>不要用 <code>sudo</code> 硬装</strong>，改用 nvm 管理 Node:</p>
+<pre>brew install nvm
+mkdir -p ~/.nvm
+echo 'export NVM_DIR="$HOME/.nvm"' &gt;&gt; ~/.zshrc
+echo '[ -s "$(brew --prefix nvm)/nvm.sh" ] &amp;&amp; . "$(brew --prefix nvm)/nvm.sh"' &gt;&gt; ~/.zshrc
+source ~/.zshrc
+nvm install --lts</pre>
+<div class="prevent-box"><span class="label">预防措施：</span>团队约定用 nvm，把 <code>.nvmrc</code> 提交到 Git，新人一行 <code>nvm use</code> 拉齐环境。</div>
+</div>
+
+<div class="troubleshoot" id="s6-1-2">
+<span class="cat-badge cat-install">安装</span>
+<div class="symptom">6.1.2 · 症状：设了环境变量，但 VS Code 扩展不生效</div>
+<p><span class="label">可能原因：</span>VS Code 不会实时继承刚改的 <code>~/.zshrc</code>。它启动时读的是它自己启动那一刻的环境变量快照。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>完全退出 VS Code（<code>Cmd+Q</code>，不是关窗），重新打开</li>
+<li>或者先在终端 <code>source ~/.zshrc</code>，再用 <code>code .</code> 启动 VS Code</li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>每次修改 <code>~/.zshrc</code> 后，形成“关 VS Code → 重开”的条件反射。</div>
+</div>
+
+<div class="troubleshoot" id="s6-1-3">
+<span class="cat-badge cat-install">配置</span>
+<div class="symptom">6.1.3 · 症状：配置了第三方 API 代理，但请求一直 401</div>
+<p><span class="label">可能原因（按概率排序）:</span></p>
+<ul>
+<li><strong>原因 A</strong>:<code>ANTHROPIC_BASE_URL</code> 写成了 <code>https://api.xxx.com/v1</code>（多了 <code>/v1</code>）</li>
+<li><strong>原因 B</strong>:<code>ANTHROPIC_AUTH_TOKEN</code> 值前后有多余空格或换行</li>
+<li><strong>原因 C</strong>：代理的 Key 已过期或被禁用</li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>检查 <code>~/.claude/settings.json</code>:Claude Code 侧<strong>不带 <code>/v1</code></strong></li>
+<li>用 <code>echo $ANTHROPIC_AUTH_TOKEN | cat -A</code> 看是否有 <code>$</code> 前的空格或 <code>^M</code> 换行</li>
+<li>去代理平台重新生成 Key，检查账户是否欠费</li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>把 Base URL 写进 CLAUDE.md 或团队 README，避免每个新人踩同一个坑。</div>
+</div>
+
+<h2>6.2 API 调用类</h2>
+
+<div class="troubleshoot" id="s6-2-1">
+<span class="cat-badge cat-api">API</span>
+<div class="symptom">6.2.1 · 症状：请求报错 <code>"max_tokens: ... must be less than..."</code></div>
+<p><span class="label">可能原因：</span><code>max_tokens</code> 超过了模型的最大输出上限。例如 Sonnet 4.6 是 64k,Opus 4.7 是 128k,Haiku 4.5 是 64k。</p>
+<p><span class="label">解决方案：</span>查<a href="appendix-a-models.html">附录 A 模型对照表</a>，把 <code>max_tokens</code> 调到模型支持范围内。</p>
+<p><span class="label">相关提示：</span>扩展思考时 <code>budget_tokens</code> 必须 <strong>&lt; <code>max_tokens</code></strong>，两者都计入模型上限。</p>
+</div>
+
+<div class="troubleshoot" id="s6-2-2">
+<span class="cat-badge cat-api">API</span>
+<div class="symptom">6.2.2 · 症状：用 Claude Opus 4.7 调手动扩展思考，返回 400 错误</div>
+<p><span class="label">可能原因：</span>Claude Opus 4.7 <strong>不支持</strong>手动扩展思考（<code>thinking={"type":"enabled"}</code>）。</p>
+<p><span class="label">解决方案：</span>二选一：</p>
+<ul>
+<li>改用<strong>自适应思考</strong>(adaptive thinking)——让模型自己决定思考深度，无需 <code>budget_tokens</code></li>
+<li>或改用支持手动思考的模型，如 Claude Sonnet 4.5 等</li>
+</ul>
+<div class="prevent-box"><span class="label">预防措施：</span>在调用前先用<a href="appendix-a-models.html">附录 A</a>确认模型是否支持你要用的特性。</div>
+</div>
+
+<div class="troubleshoot" id="s6-2-3">
+<span class="cat-badge cat-api">API</span>
+<div class="symptom">6.2.3 · 症状：用 Claude Opus 4.7 / 4.6 / Sonnet 4.6 预填充 assistant 消息返回 400</div>
+<p><span class="label">可能原因：</span>这三个模型<strong>明确不支持</strong>预填充技术——在 <code>messages</code> 最后一位放 <code>assistant</code> 消息会直接报错。</p>
+<p><span class="label">解决方案：</span></p>
+<ul>
+<li>改用“结构化输出”（<code>response_format</code> / 严格工具使用）</li>
+<li>或改写系统提示，用指令约束输出格式</li>
+<li>或改用支持预填充的模型（如 Sonnet 4.5）</li>
+</ul>
+</div>
+
+<div class="troubleshoot" id="s6-2-4">
+<span class="cat-badge cat-api">缓存</span>
+<div class="symptom">6.2.4 · 症状：提示缓存第二次请求没命中，成本还是很高</div>
+<p><span class="label">可能原因：</span></p>
+<ul>
+<li><strong>原因 A</strong>：<strong>扩展思考的 <code>budget_tokens</code> 变了</strong> —— 消息缓存会失效（系统提示缓存仍有效）</li>
+<li><strong>原因 B</strong>:5 分钟缓存已到期，两次请求间隔过长</li>
+<li><strong>原因 C</strong>：两次请求的 <code>system</code> 或前缀内容有细微差异（包括空格、换行）</li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>保持思考参数一致——只在必要时改 <code>budget_tokens</code></li>
+<li>如果需要跨会话复用，开启 <strong>1 小时缓存</strong>（比 5 分钟缓存更贵一点，但命中率高得多）</li>
+<li>检查 system 字符串是否完全一致</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-2-5">
+<span class="cat-badge cat-api">工具</span>
+<div class="symptom">6.2.5 · 症状：工具使用时报 "You must include the thinking block"</div>
+<p><span class="label">可能原因：</span>扩展思考 + 工具使用时，第二次请求必须把<strong>完整的 <code>thinking</code> 块连同 <code>tool_use</code> 块一起传回</strong>，不能修改或剥离。系统用密码签名验证思考块真实性。</p>
+<p><span class="label">解决方案：</span></p>
+<pre># 第二次请求必须原样带回思考块和工具块
+continuation = client.messages.create(
+    ...
+    messages=[
+        {"role": "user", "content": "What's the weather in Paris?"},
+        # 下面这一整块必须原样回传,不能改
+        {"role": "assistant", "content": [thinking_block, tool_use_block]},
+        {"role": "user", "content": [
+            {"type": "tool_result",
+             "tool_use_id": tool_use_block.id,
+             "content": "Current temperature: 88°F"}
+        ]}
+    ],
+)</pre>
+<div class="prevent-box"><span class="label">预防措施：</span>代码里建立一个“思考块 → 对应工具调用”的映射结构，方便原样回传。</div>
+</div>
+
+<div class="troubleshoot" id="s6-2-6">
+<span class="cat-badge cat-api">工具</span>
+<div class="symptom">6.2.6 · 症状：响应返回 <code>stop_reason: "tool_use"</code>，但我不知道下一步传什么</div>
+<p><span class="label">可能原因：</span>第一次写工具调用的代码，没理解“工具循环”的流程。</p>
+<p><span class="label">解决方案：</span>完整流程是：</p>
+<ol style="margin-bottom:8px">
+<li>你发第一个请求（带 <code>tools</code> 参数）</li>
+<li>Claude 返回 <code>stop_reason: "tool_use"</code> + 一个或多个 <code>tool_use</code> 块</li>
+<li>你的代码<strong>执行</strong>这些工具（读文件 / 调 API / 跑脚本...）</li>
+<li>你把<strong>完整的对话历史 + 每个 tool_use 对应的 tool_result</strong>一起发第二次请求</li>
+<li>Claude 看到结果后，要么再调工具（回到步骤 3），要么返回 <code>stop_reason: "end_turn"</code></li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>先用一个简单的服务器端工具（如 <code>web_search</code>）练手——服务器端工具 Anthropic 替你跑，你直接拿结果，跳过了步骤 3-4 的复杂流程。</div>
+</div>
+
+<div class="troubleshoot" id="s6-2-7">
+<span class="cat-badge cat-api">API</span>
+<div class="symptom">6.2.7 · 症状：输出明明还没说完就停了，<code>stop_reason: "max_tokens"</code></div>
+<p><span class="label">可能原因：</span><code>max_tokens</code> 设得太小，模型被截断。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>把 <code>max_tokens</code> 调大（注意不能超过模型上限，见附录 A）</li>
+<li>如果是扩展思考场景，记得 <code>budget_tokens</code> 占用的是 <code>max_tokens</code> 预算——两者都要调</li>
+<li>若要继续上次未完成的输出，把第一次的截断响应作为 <code>assistant</code> 消息，追加一个 <code>user</code> 消息“继续”</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-2-8">
+<span class="cat-badge cat-api">API</span>
+<div class="symptom">6.2.8 · 症状：返回 <code>overloaded_error</code> 或 529</div>
+<p><span class="label">可能原因：</span>服务端瞬时过载，不是你的问题。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>实现<strong>指数退避重试</strong>：等 1 秒重试，失败等 2 秒，再失败等 4 秒，最多重试 3–5 次</li>
+<li>如果是长期批量任务，考虑用批处理 API（比标准 API 便宜 50%）</li>
+<li>错峰发送：在高峰时段延后请求</li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>生产环境必须写好重试和降级逻辑，不要假设 API 永远可用。</div>
+</div>
+
+<h2>6.3 Claude Code 使用类</h2>
+
+<div class="troubleshoot" id="s6-3-1">
+<span class="cat-badge cat-code">Skill</span>
+<div class="symptom">6.3.1 · 症状：Skill 装了但 Claude 好像没调用它</div>
+<p><span class="label">可能原因：</span></p>
+<ul>
+<li><strong>原因 A</strong>:<code>description</code> 写得太抽象，Claude 判断不出何时该触发</li>
+<li><strong>原因 B</strong>：安装后<strong>没有重启 Claude Code</strong></li>
+<li><strong>原因 C</strong>：在 API 场景用预构建 Skills 时，没加齐所需 beta 标头</li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>改写 <code>description</code>——用用户可能说的<strong>原话</strong>，如“帮我填写 PDF 表单”、“分析 Excel 销售数据”</li>
+<li>重启 Claude Code</li>
+<li>如果自动触发不成功，手动指定：对话里直接说“用 xxx skill 帮我...”</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-3-2">
+<span class="cat-badge cat-code">权限</span>
+<div class="symptom">6.3.2 · 症状：Claude 总是说“我不能做这个”或拒绝执行某条命令</div>
+<p><span class="label">可能原因：</span></p>
+<ul>
+<li><strong>原因 A</strong>：你在 <code>default</code> 权限模式下，它需要你按 <code>y</code> 确认——它不是“拒绝”，是在<strong>等你点头</strong></li>
+<li><strong>原因 B</strong>:Opus 4.7 的网络安全护栏触发了（如批量删文件、敏感数据外泄等）</li>
+<li><strong>原因 C</strong>：命令本身确实危险（<code>rm -rf /</code> 这类），被安全规则硬拦截</li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>按 <code>Shift+Tab</code> 看屏幕底部状态栏——是不是显示 "default mode"？如是，按 <code>y</code> 确认即可</li>
+<li>如果是合法的安全研究/渗透测试，把上下文（项目目的、合法授权）写进 CLAUDE.md</li>
+<li>对于真的危险操作，应该庆幸它拒绝了——换个更安全的实现方式</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-3-3">
+<span class="cat-badge cat-code">登录</span>
+<div class="symptom">6.3.3 · 症状：Claude 突然要求重新登录，或 <code>claude</code> 命令报“未授权”</div>
+<p><span class="label">可能原因：</span>账号 token 过期。Claude 长时间没用会自动失效。</p>
+<p><span class="label">解决方案：</span></p>
+<pre>claude logout
+claude login
+# 浏览器会自动打开,完成授权即可</pre>
+<div class="prevent-box"><span class="label">预防措施：</span>无需特别预防——失效是正常安全机制，平均 1–2 个月可能要重新登录一次。</div>
+</div>
+
+<div class="troubleshoot" id="s6-3-4">
+<span class="cat-badge cat-code">MCP</span>
+<div class="symptom">6.3.4 · 症状：MCP 服务器一直连接不上，工具列表里看不到对应工具</div>
+<p><span class="label">可能原因（按概率）:</span></p>
+<ul>
+<li><strong>原因 A</strong>：对应服务的认证过期（GitHub token、Slack OAuth 等）</li>
+<li><strong>原因 B</strong>：网络问题，公司防火墙或代理拦截了</li>
+<li><strong>原因 C</strong>:MCP 服务器本身挂了，稍等再试</li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>先看状态：<code>/mcp</code></li>
+<li>如果显示 auth 错误，重新授权对应服务</li>
+<li>试试 <code>curl &lt;mcp-server-url&gt;</code>，排除网络问题</li>
+<li>实在不行，先 <code>/mcp remove &lt;id&gt;</code> 再 <code>/mcp add &lt;url&gt;</code> 重连</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-3-5">
+<span class="cat-badge cat-code">命令</span>
+<div class="symptom">6.3.5 · 症状：写好了 <code>.claude/commands/foo.md</code>，但 <code>/foo</code> 不生效</div>
+<p><span class="label">可能原因：</span></p>
+<ul>
+<li><strong>原因 A</strong>：文件路径不对——必须在 <code>.claude/commands/</code>（项目级）或 <code>~/.claude/commands/</code>（个人级）下</li>
+<li><strong>原因 B</strong>：文件名后缀不是 <code>.md</code></li>
+<li><strong>原因 C</strong>:YAML frontmatter 格式坏了（三个 <code>---</code> 必须正确成对）</li>
+<li><strong>原因 D</strong>：加完命令<strong>没有重启 Claude Code</strong></li>
+</ul>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>检查路径：<code>ls -la .claude/commands/</code> 或 <code>ls -la ~/.claude/commands/</code></li>
+<li>检查文件名以 <code>.md</code> 结尾</li>
+<li>检查 frontmatter：开头 <code>---</code> 一行，结尾 <code>---</code> 一行，中间是 YAML</li>
+<li>退出 Claude Code（<code>/quit</code>）再重新启动</li>
+<li>启动后输入 <code>/help</code> 确认命令是否在列表里</li>
+</ol>
+</div>
+
+<h2>6.4 性能类</h2>
+
+<p>性能问题几乎都和“上下文越长，每次处理越慢、越贵、越容易出错”有关。核心策略是勤用 <code>/compact</code> 和 <code>/clear</code>。</p>
+
+<div class="troubleshoot" id="s6-4-1">
+<span class="cat-badge cat-perf">性能</span>
+<div class="symptom">6.4.1 · 症状：聊了很久之后，Claude 开始“答非所问”，或者忘了最开始的设定</div>
+<p><span class="label">可能原因：</span>上下文窗口快满了，出现“上下文衰退（context rot）”。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>输入 <code>/compact</code>，让 Claude 主动总结前文、释放空间</li>
+<li>如果当前子任务已完成，直接 <code>/clear</code> 清空；把关键结论记到 <code>CLAUDE.md</code> 里，下次启动自动加载</li>
+<li>关掉再回来：<code>claude --resume</code> 或简写 <code>claude -c</code> 接续上次对话</li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>长任务不要一把梭——分阶段做，每完成一个阶段就 <code>/compact</code>，大任务拆成多个会话。</div>
+</div>
+
+<div class="troubleshoot" id="s6-4-2">
+<span class="cat-badge cat-perf">性能</span>
+<div class="symptom">6.4.2 · 症状：Claude Code 执行某个操作卡住不返回</div>
+<p><span class="label">可能原因：</span>长任务超时（默认 API 超时受 <code>API_TIMEOUT_MS</code> 控制）。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>按 <code>Ctrl+C</code> 中断</li>
+<li>在 <code>~/.claude/settings.json</code> 里把 <code>API_TIMEOUT_MS</code> 调大（默认建议 <code>3000000</code> = 50 分钟）</li>
+<li>把大任务拆成多个小步骤，每步让 Claude 先汇报再继续——既容易调试也容易回滚</li>
+</ol>
+</div>
+
+<div class="troubleshoot" id="s6-4-3">
+<span class="cat-badge cat-perf">性能</span>
+<div class="symptom">6.4.3 · 症状：聊得越久，Claude 回复越慢</div>
+<p><span class="label">可能原因：</span>上下文堆积。每条消息都要重新处理全部历史——<strong>消息越长、处理越慢、单次成本越高</strong>。</p>
+<p><span class="label">解决方案：</span></p>
+<ol style="margin-bottom:8px">
+<li>立刻 <code>/compact</code> 压缩</li>
+<li>实在太乱，导出当前进度 <code>/export progress.md</code>，然后 <code>/clear</code> 开新会话，把 <code>progress.md</code> 读进来继续</li>
+<li>用 <code>/context</code> 查看当前占用——彩色网格直观显示文件/对话历史/系统提示分别占了多少</li>
+</ol>
+<div class="prevent-box"><span class="label">预防措施：</span>看到 <code>/context</code> 显示 &gt; 80%，立刻 <code>/compact</code>。<strong>不要等</strong>系统提示 "context full" 才动手。</div>
+</div>
+
+<h2>6.5 模型弃用与迁移类</h2>
+
+<div class="troubleshoot" id="s6-5-1">
+<span class="cat-badge cat-deprec">弃用</span>
+<div class="symptom">6.5.1 · 症状：调用 <code>claude-sonnet-4-20250514</code> 或 <code>claude-opus-4-20250514</code> 返回废弃提示</div>
+<p><span class="label">可能原因：</span>这两个模型已宣布将于 <strong>2026 年 6 月 15 日</strong>停用。Claude Haiku 3 也将于 2026 年 4 月 19 日停用。</p>
+<p><span class="label">解决方案：</span></p>
+<ul>
+<li>迁移到 Claude Sonnet 4.6 / Opus 4.7 / Haiku 4.5</li>
+<li>参见附录 A 的 API ID 对照</li>
+</ul>
+<div class="prevent-box"><span class="label">预防措施：</span>不要在代码里硬编码带具体日期的 ID（如 <code>claude-sonnet-4-20250514</code>），优先用别名（如 <code>claude-sonnet-4-0</code>）。</div>
+</div>
+
+<h2>6.6 如果你的问题不在上面</h2>
+
+<div class="note">
+按下面顺序排查：
+<ol style="margin-bottom:0;margin-top:6px">
+<li><strong>先看报错原文</strong>——它通常已经告诉你哪里错。别跳过</li>
+<li><strong>确认模型是否支持你要的功能</strong>——查附录 A</li>
+<li><strong>在 Claude Code 里问 Claude</strong>——把完整错误信息贴进去让它分析</li>
+<li><strong>减法排查</strong>——把请求简化到最小，逐步加回复杂度，找到第一个出问题的变量</li>
+</ol>
+</div>
+
+<h3>6.6.1 外部求助渠道</h3>
+
+<p>上面 4 步仍未解决，可以考虑下面这些外部渠道（按优先级排序）:</p>
+
+<div class="help-channels">
+<div class="channel">
+<div class="ch-icon">📘</div>
+<div><span class="ch-name">Claude Code 官方文档</span> · <span class="ch-url">code.claude.com/docs</span><br>
+<span style="color:#666;font-size:13px">CLI 特性、配置、斜杠命令、Skills 权威参考</span></div>
+</div>
+<div class="channel">
+<div class="ch-icon">🌐</div>
+<div><span class="ch-name">Claude API 官方文档</span> · <span class="ch-url">platform.claude.com/docs</span><br>
+<span style="color:#666;font-size:13px">Messages API、SDK、工具、扩展思考、模型 ID 的权威参考</span></div>
+</div>
+<div class="channel">
+<div class="ch-icon">🐛</div>
+<div><span class="ch-name">GitHub Issues</span> · <span class="ch-url">github.com/anthropics/claude-code/issues</span><br>
+<span style="color:#666;font-size:13px">提 Bug / 功能建议；先搜索，很可能已有同样的 issue</span></div>
+</div>
+<div class="channel">
+<div class="ch-icon">💬</div>
+<div><span class="ch-name">Anthropic Discord</span><br>
+<span style="color:#666;font-size:13px">社区问答，适合“我想做 X，哪种方案好”这类开放问题</span></div>
+</div>
+<div class="channel">
+<div class="ch-icon">🔎</div>
+<div><span class="ch-name">Stack Overflow</span> · 标签 <code>anthropic</code> / <code>claude-api</code><br>
+<span style="color:#666;font-size:13px">搜技术细节效率很高，尤其是 SDK 使用、JSON 格式等</span></div>
+</div>
+<div class="channel">
+<div class="ch-icon">🏢</div>
+<div><span class="ch-name">企业技术支持</span><br>
+<span style="color:#666;font-size:13px">企业用户可在 Anthropic Console 提交工单，获得官方响应</span></div>
+</div>
+</div>
+
+<h2>6.7 读完本章，你应该能做</h2>
+
+<div class="note">
+<ul style="margin-bottom:0">
+<li>✅ 遇到任何问题，先在快速索引里按“症状”找，不用从头翻整章</li>
+<li>✅ 看懂每条的“症状 → 原因 → 方案 → 预防”四段结构</li>
+<li>✅ 从 cat-badge 颜色（黄=安装/蓝=API/紫=Code/橙=性能/灰=弃用）快速判断问题类型</li>
+<li>✅ 知道 6.6 节的通用排查路径和 6 种外部求助渠道，不在手册没覆盖时卡死</li>
+</ul>
+</div>
+
+
+<h2>6.8 相关章节</h2>
+
+<div class="help-channels">
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="03-claude-code.html"><span class="ch-name">→ 第三章 · Claude Code</span></a><br><span style="color:#666;font-size:13px">安装 / 权限 / 配置的完整流程，6.1–6.3 类条目对应章节</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="04-advanced.html"><span class="ch-name">→ 第四章 · 进阶能力</span></a><br><span style="color:#666;font-size:13px">Skills / 工具使用 / 扩展思考 / 提示缓存 — 6.2 类条目的完整介绍</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="07-cost-saving.html"><span class="ch-name">→ 第七章 · 省钱与成本</span></a><br><span style="color:#666;font-size:13px">6.4 性能类问题的系统性解决：上下文管理 + 模型切换</span></div></div>
+<div class="channel"><div class="ch-icon">🔗</div><div><a href="appendix-a-models.html"><span class="ch-name">→ 附录 A · 模型对照表</span></a><br><span style="color:#666;font-size:13px">6.2 / 6.5 类条目涉及的模型能力矩阵</span></div></div>
+</div>
+
+<div class="pager">
+<a href="05-harness.html">← 第五章：Harness</a>
+<a href="07-cost-saving.html">下一章：省钱与成本控制 →</a>
+</div>
+
+</div>
+</body>
+</html>
